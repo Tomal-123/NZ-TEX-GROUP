@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+
+{% block title %}Tasks - NZ TEX IT{% endblock %}
+
+{% block extra_css %}
+<style>
+.task-card {
+    background: white;
+    border-radius: 6px;
+    padding: 0.625rem;
+    margin-bottom: 0.4375rem;
+    border-left: 2px solid #3B82F6;
+}
+.priority-low { border-left-color: #10B981; }
+.priority-medium { border-left-color: #F59E0B; }
+.priority-high { border-left-color: #EF4444; }
+.task-card { cursor: grab; transition: transform 0.2s; }
+.task-card.dragging { opacity: 0.5; transform: scale(1.02); }
+.task-card.drag-over-left { border-left: 6px solid #10B981; transform: translateX(-10px); }
+.task-card.drag-over-right { border-left: 6px solid #10B981; transform: translateX(10px); }
+.drag-hint { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+.task-card:hover .drag-hint { opacity: 0.5; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 min-h-screen py-3 pb-8">
+    <div id="toast-container" class="fixed top-20 right-4 z-50 flex flex-col gap-2"></div>
+    
+    <div class="max-w-7xl mx-auto px-2 md:px-4">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-lg font-bold gradient-text">My Tasks</h2>
+        </div>
+        
+        {% for task in tasks %}
+        <div class="task-card priority-{{ task.priority }}" data-status="{{ task.status }}" data-task-id="{{ task.id }}">
+            <div class="flex flex-col md:flex-row justify-between items-start">
+                <div class="flex-1 w-full md:w-auto">
+                    <h3 class="text-base md:text-lg font-semibold">{{ task.title }}</h3>
+                    <p class="text-gray-500 md:text-gray-600 mt-0.5 md:mt-1">{{ task.description|truncatewords:20 }}</p>
+                </div>
+                <div class="ml-0 md:ml-4 w-full md:w-64 border-t md:border-l md:pl-4 mt-3 md:mt-0 pt-3 md:pt-0">
+                    <h4 class="text-sm font-medium text-gray-700 mb-2">Comments</h4>
+                    <div class="space-y-2 max-h-32 overflow-y-auto">
+                        {% for comment in task.comments.all %}
+                        <div class="text-sm bg-gray-50 p-2 rounded">
+                            <span class="font-medium text-indigo-600">{{ comment.user.username }}:</span>
+                            <span class="text-gray-600">{{ comment.text }}</span>
+                        </div>
+                        {% empty %}
+                        <p class="text-xs text-gray-400">No comments yet</p>
+                        {% endfor %}
+                    </div>
+                    <form method="post" action="{% url 'add_comment' task.id %}" class="mt-2 flex gap-2">
+                        {% csrf_token %}
+                        <input type="text" name="text" placeholder="Add comment..." class="flex-1 px-2 py-1 text-sm border rounded">
+                        <button type="submit" class="px-2 py-1 bg-indigo-600 text-white text-sm rounded">+</button>
+                    </form>
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row justify-between items-center mt-2 md:mt-4 gap-2">
+                <div class="flex flex-wrap gap-1">
+                    <a href="{% url 'edit_task' task.id }}" class="px-2 md:px-3 py-0.5 md:py-1 bg-blue-500 text-white text-xs md:text-sm rounded hover:bg-blue-600">Edit</a>
+                    <form method="post" action="{% url 'approve_task' task.id %}" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="px-2 md:px-3 py-0.5 md:py-1 bg-green-500 text-white text-xs md:text-sm rounded hover:bg-green-600">Approve</button>
+                    </form>
+                    <form method="post" action="{% url 'delete_task' task.id %}" class="inline" onsubmit="return confirm('Delete this task?');">
+                        {% csrf_token %}
+                        <button type="submit" class="px-2 md:px-3 py-0.5 md:py-1 bg-red-500 text-white text-xs md:text-sm rounded hover:bg-red-600">Delete</button>
+                    </form>
+                </div>
+                <select onchange="updateStatus({{ task.id }}, this.value)" class="px-2 md:px-3 py-0.5 md:py-1 border rounded text-xs md:text-sm">
+                    <option value="pending" {% if task.status == 'pending' %}selected{% endif %}>Pending</option>
+                    <option value="in_progress" {% if task.status == 'in_progress' %}selected{% endif %}>In Progress</option>
+                    <option value="completed" {% if task.status == 'completed' %}selected{% endif %}>Completed</option>
+                </select>
+            </div>
+            <div class="mt-4 flex items-center gap-4 text-sm text-gray-500">
+                <span>Priority: {{ task.get_priority_display }}</span>
+                {% if task.due_date %}
+                <span>Due: {{ task.due_date }}</span>
+                {% endif %}
+                {% if task.category %}
+                <span>Category: {{ task.category.name }}</span>
+                {% endif %}
+                {% if task.assigned_to.all %}
+                <span class="text-indigo-600">Assigned: 
+                    {% for user in task.assigned_to.all %}{{ user.username }}{% if not forloop.last %}, {% endif %}{% endfor %}
+                </span>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center text-gray-500 py-8">No tasks yet. Create your first task!</p>
+        {% endfor %}
+        
+        <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 bg-white px-4 py-2 rounded-full shadow-lg">
+            <button onclick="filterTasks('all')" class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 hover:bg-gray-300">All</button>
+            <button onclick="filterTasks('pending')" class="px-4 py-2 rounded-lg text-sm font-medium text-white bg-red-500 hover:bg-red-600">Pending</button>
+            <button onclick="filterTasks('in_progress')" class="px-4 py-2 rounded-lg text-sm font-medium text-white bg-orange-500 hover:bg-orange-600">In Progress</button>
+            <button onclick="filterTasks('completed')" class="px-4 py-2 rounded-lg text-sm font-medium text-white bg-green-500 hover:bg-green-600">Completed</button>
+        </div>
+    </div>
+</div>
+
+<script>
+let draggedCard = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.task-card');
+    cards.forEach(card => {
+        card.draggable = true;
+        card.addEventListener('dragstart', handleDragStart);
+        card.addEventListener('dragend', handleDragEnd);
+        card.addEventListener('dragover', handleDragOver);
+        card.addEventListener('dragleave', handleDragLeave);
+        card.addEventListener('drop', handleDrop);
+    });
+});
+
+function handleDragStart(e) {
+    draggedCard = this;
+    this.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', this.dataset.status);
+}
+
+function handleDragEnd(e) {
+    this.classList.remove('dragging');
+    document.querySelectorAll('.task-card').forEach(card => {
+        card.classList.remove('drag-over-left', 'drag-over-right');
+    });
+    draggedCard = null;
+}
+
+function handleDragOver(e) {
+    e.preventDefault();
+    if (this === draggedCard) return;
+    
+    const rect = this.getBoundingClientRect();
+    const midpoint = rect.left + rect.width / 2;
+    
+    if (e.clientX < midpoint) {
+        this.classList.add('drag-over-left');
+        this.classList.remove('drag-over-right');
+    } else {
+        this.classList.add('drag-over-right');
+        this.classList.remove('drag-over-left');
+    }
+}
+
+function handleDragLeave(e) {
+    this.classList.remove('drag-over-left', 'drag-over-right');
+}
+
+function handleDrop(e) {
+    e.preventDefault();
+    if (this === draggedCard) return;
+    
+    const rect = this.getBoundingClientRect();
+    const midpoint = rect.left + rect.width / 2;
+    const targetStatus = this.dataset.status;
+    const taskId = draggedCard.dataset.taskId;
+    
+    const currentStatus = draggedCard.dataset.status;
+    if (targetStatus !== currentStatus && taskId) {
+        updateStatus(taskId, targetStatus);
+        draggedCard.dataset.status = targetStatus;
+    }
+    
+    this.classList.remove('drag-over-left', 'drag-over-right');
+}
+
+function updateStatus(taskId, status) {
+    fetch(`/tasks/${taskId}/status/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: `status=${status}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast(data.message, data.color);
+        }
+    });
+}
+
+function showToast(message, color) {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = 'px-5 py-3 rounded-lg text-white font-medium shadow-lg transform transition-all duration-300 translate-x-full opacity-0';
+    toast.style.backgroundColor = color;
+    toast.textContent = message;
+    
+    container.appendChild(toast);
+    
+    requestAnimationFrame(() => {
+        toast.classList.remove('translate-x-full', 'opacity-0');
+    });
+    
+    setTimeout(() => {
+        toast.classList.add('translate-x-full', 'opacity-0');
+        setTimeout(() => toast.remove(), 300);
+    }, 2500);
+}
+
+function filterTasks(status) {
+    const cards = document.querySelectorAll('.task-card');
+    cards.forEach(card => {
+        if (status === 'all') {
+            card.style.display = 'block';
+        } else {
+            const cardStatus = card.dataset.status;
+            card.style.display = cardStatus === status ? 'block' : 'none';
+        }
+    });
+}
+</script>
+{% endblock %}

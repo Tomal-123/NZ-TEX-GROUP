@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Task - NZ TEX IT{% endblock %}
+
+{% block extra_css %}
+<style>
+.login-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+.form-group {
+    margin-bottom: 1rem;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #374151;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+.form-group textarea {
+    min-height: 100px;
+}
+.btn-submit {
+    background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 50%, #6366F1 100%);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+}
+.btn-submit:hover {
+    opacity: 0.9;
+}
+.assign-checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    max-height: 150px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+}
+.assign-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem;
+}
+.assign-checkbox input {
+    width: auto;
+}
+.assign-checkbox label {
+    margin: 0;
+    font-weight: 400;
+    font-size: 0.9rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 min-h-screen py-8">
+    <div class="login-container">
+        <h2 class="text-2xl font-bold gradient-text mb-6">Edit Task</h2>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="title">Task Title</label>
+                <input type="text" name="title" id="title" required value="{{ task.title }}" placeholder="Enter task title">
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea name="description" id="description" placeholder="Enter task description">{{ task.description }}</textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select name="status" id="status">
+                    <option value="pending" {% if task.status == 'pending' %}selected{% endif %}>Pending</option>
+                    <option value="in_progress" {% if task.status == 'in_progress' %}selected{% endif %}>In Progress</option>
+                    <option value="completed" {% if task.status == 'completed' %}selected{% endif %}>Completed</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="priority">Priority</label>
+                <select name="priority" id="priority">
+                    <option value="low" {% if task.priority == 'low' %}selected{% endif %}>Low</option>
+                    <option value="medium" {% if task.priority == 'medium' %}selected{% endif %}>Medium</option>
+                    <option value="high" {% if task.priority == 'high' %}selected{% endif %}>High</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="due_date">Due Date</label>
+                <input type="date" name="due_date" id="due_date" value="{{ task.due_date }}">
+            </div>
+            
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select name="category" id="category">
+                    <option value="">No Category</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat.id }}" {% if task.category_id == cat.id %}selected{% endif %}>{{ cat.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Assign To (Multiple)</label>
+                <div class="assign-checkbox-group">
+                    {% for user in users %}
+                    <div class="assign-checkbox">
+                        <input type="checkbox" name="assigned_to" id="user_{{ user.id }}" value="{{ user.id }}" {% if user in task.assigned_to.all %}checked{% endif %}>
+                        <label for="user_{{ user.id }}">{{ user.username }}</label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-submit">Update Task</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

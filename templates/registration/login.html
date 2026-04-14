@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - NZ TEX IT{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+    <div class="max-w-md w-full space-y-8">
+        <div class="text-center">
+            <h2 class="text-4xl font-extrabold gradient-text">Welcome Back</h2>
+            <p class="mt-2 text-gray-600">Sign in to your NZ TEX IT account</p>
+        </div>
+
+        <div class="card-hover mt-8 bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+            {% if form.errors %}
+            <div class="mb-4 bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg">
+                <p>Please enter a correct username and password. Note that both fields may be case-sensitive.</p>
+            </div>
+            {% endif %}
+
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                
+                <div>
+                    <label for="id_username" class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="text" name="username" id="id_username" required
+                        class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+                        placeholder="Enter your username">
+                </div>
+
+                <div>
+                    <label for="id_password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" name="password" id="id_password" required
+                        class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+                        placeholder="Enter your password">
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input type="checkbox" name="remember" id="id_remember"
+                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                        <label for="id_remember" class="ml-2 block text-sm text-gray-700">Remember me</label>
+                    </div>
+                    <div class="text-sm">
+                        <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Forgot password?</a>
+                    </div>
+                </div>
+
+                <button type="submit"
+                    class="w-full gradient-bg text-white font-semibold py-3 px-4 rounded-lg hover:opacity-90 transition btn-glow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Sign In
+                </button>
+
+                <input type="hidden" name="next" value="{{ next }}">
+            </form>
+
+            <div class="mt-6 text-center">
+                <p class="text-sm text-gray-600">
+                    Don't have an account?
+                    <a href="{% url 'register' %}" class="font-medium text-indigo-600 hover:text-indigo-500">Sign up</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

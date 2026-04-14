@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center hero-pattern">
+    <div class="text-center animate-slide-up">
+        <h2 class="text-3xl font-bold gradient-text">Logged Out</h2>
+        <p class="mt-2 text-gray-600">You have been successfully logged out.</p>
+        <a href="{% url 'login' %}" class="mt-4 inline-block px-6 py-3 rounded-lg text-white gradient-bg btn-glow">Log In Again</a>
+    </div>
+</div>
+{% endblock %}
