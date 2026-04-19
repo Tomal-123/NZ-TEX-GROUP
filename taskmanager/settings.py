@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'taskmanager',
     'accounts',
+    'inventory',
 ]
 
 MIDDLEWARE = [

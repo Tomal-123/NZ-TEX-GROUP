@@ -4,6 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from taskmanager.views import home, register, create_task, task_list, update_task_status, add_comment, contact, approve_task, delete_task, edit_task, notifications, create_notification, mark_notification_read, delete_notification, get_notifications, dashboard, profile, organogram, erp_service, team, get_contacts
+from inventory.views import inventory_management
 
 urlpatterns = [
     path('', home, name='home'),
@@ -12,6 +13,7 @@ urlpatterns = [
     path('organogram/', organogram, name='organogram'),
     path('team/', team, name='team'),
     path('erp/', erp_service, name='erp_service'),
+    path('inventory/', inventory_management, name='inventory_management'),
     path('admin/', admin.site.urls),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),

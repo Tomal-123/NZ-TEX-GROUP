@@ -70,3 +70,56 @@ class Contact(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.company_name}"
+
+
+class InventoryItem(models.Model):
+    DEPARTMENT_CHOICES = [
+        ('computer_accessories', 'Computer Accessories'),
+        ('printer_and_scanner', 'Printer and Scanner'),
+        ('others_it_product', "Other's IT Product"),
+    ]
+    
+    CATEGORY_CHOICES = [
+        ('desktop', 'Desktop'),
+        ('monitor', 'Monitor'),
+        ('laptop', 'Laptop'),
+        ('mouse', 'Mouse'),
+        ('wireless_mouse', 'Wireless Mouse'),
+        ('keyboard', 'Keyboard'),
+        ('ups', 'UPS'),
+        ('general_printer', 'General Printer'),
+        ('color_printer', 'Color Printer'),
+        ('dot_printer', 'Dot Printer'),
+        ('sticker_printer', 'Sticker Printer'),
+        ('scanner', 'Scanner'),
+        ('photocopy_machine', 'Photocopy Machine'),
+        ('enroll_scanner', 'Enroll Scanner'),
+        ('ip_phone', 'IP Phone'),
+        ('switch_8port', '8 Port Switch'),
+        ('switch_24port', '24 Port Switch'),
+        ('mc', 'MC'),
+        ('tj_box', 'TJ Box'),
+        ('nvr', 'NVR'),
+        ('ip_camera', 'IP Camera'),
+        ('pendrive', 'Pendrive'),
+        ('usb_hub', 'USB Hub'),
+        ('eth_adapter', 'Eth. Adapter'),
+        ('tv', 'TV'),
+        ('wifi', 'Wifi'),
+        ('virdi_device', 'Virdi Device'),
+        ('network_booster', 'Network Booster'),
+        ('projector', 'Projector'),
+        ('wallstand_screen', 'Wall Stand and Screen'),
+    ]
+    
+    department = models.CharField(max_length=50, choices=DEPARTMENT_CHOICES, default='computer_accessories')
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='other')
+    quantity = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.get_department_display()} - {self.get_category_display()} - {self.quantity}"
+
+    class Meta:
+        verbose_name_plural = "Inventory Items"
