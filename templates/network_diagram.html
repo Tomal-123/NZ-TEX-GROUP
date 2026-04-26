@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Network Diagram - NZ TEX IT{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --primary: #b6291f;
+    }
+    
+    .hero-bg {
+        background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #16213e 100%);
+    }
+    
+    html:not(.dark) .hero-bg {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
+    }
+    
+    .glass {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    html:not(.dark) .glass {
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+    
+    .gradient-text {
+        background: linear-gradient(135deg, #b6291f, #ff6b6b);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+</style>
+
+<section class="min-h-screen hero-bg pt-20 pb-16">
+    <div class="w-[90%] mx-auto px-4">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">
+                <span class="gradient-text">Network Diagram</span>
+            </h1>
+            <p class="text-gray-400 dark:text-gray-400">NZ TEX IT Network Structure</p>
+        </div>
+        
+        <div class="glass rounded-2xl p-8 text-center">
+            <p class="text-gray-400">Network diagram page coming soon...</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

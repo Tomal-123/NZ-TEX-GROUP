@@ -1,0 +1,167 @@
+﻿<aside id="sidebar" class="fixed left-0 top-16 bottom-0 w-72 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-r border-gray-200/50 dark:border-gray-700/50 z-40 transition-all duration-500 lg:translate-x-0">
+    <button id="sidebar-toggle" class="lg:hidden absolute -right-12 top-4 z-50 w-10 h-10 bg-gradient-to-r from-[#b6291f] to-[#ff6b6b] text-white rounded-r-xl flex items-center justify-center shadow-lg shadow-[#b6291f]/30 hover:shadow-[#b6291f]/50 transition-all duration-300">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+    </button>
+    
+    <button id="sidebar-collapse" class="hidden lg:flex absolute -right-3 top-4 z-50 w-7 h-7 bg-gradient-to-r from-[#b6291f] to-[#ff6b6b] text-white rounded-full items-center justify-center shadow-lg shadow-[#b6291f]/30 hover:shadow-[#b6291f]/50 transition-all duration-300 hover:scale-110">
+        <svg class="w-3 h-3 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+    </button>
+    
+    <div class="relative h-full overflow-y-auto custom-scrollbar">
+        <div class="p-5 space-y-6">
+            <div class="space-y-1">
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3 sidebar-text">Task Dashboard</p>
+                <a href="{% url 'create_task' %}" class="group flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-300 {% if request.resolver_match.url_name == 'create_task' %}bg-gradient-to-r from-[#b6291f] to-[#8a1f15] text-white shadow-lg shadow-[#b6291f]/30{% else %}text-gray-600 dark:text-gray-300 hover:bg-[#b6291f]/10 hover:text-[#b6291f]{% endif %}">
+                    <div class="w-9 h-9 rounded-lg bg-current/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    </div>
+                    <span class="sidebar-text">Create Task</span>
+                </a>
+                <a href="{% url 'task_list' %}" class="group flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-300 {% if request.resolver_match.url_name == 'task_list' %}bg-gradient-to-r from-[#b6291f] to-[#8a1f15] text-white shadow-lg shadow-[#b6291f]/30{% else %}text-gray-600 dark:text-gray-300 hover:bg-[#b6291f]/10 hover:text-[#b6291f]{% endif %}">
+                    <div class="w-9 h-9 rounded-lg bg-current/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                    </div>
+                    <span class="sidebar-text">All Task</span>
+                </a>
+                <a href="{% url 'dashboard' %}" class="group flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-300 {% if request.resolver_match.url_name == 'dashboard' %}bg-gradient-to-r from-[#b6291f] to-[#8a1f15] text-white shadow-lg shadow-[#b6291f]/30{% else %}text-gray-600 dark:text-gray-300 hover:bg-[#b6291f]/10 hover:text-[#b6291f]{% endif %}">
+                    <div class="w-9 h-9 rounded-lg bg-current/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    </div>
+                    <span class="sidebar-text">Task Dashboard</span>
+                </a>
+            </div>
+
+            <div class="space-y-1">
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3 sidebar-text">Our Service</p>
+                <a href="{% url 'erp_service' %}" class="group flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-300 {% if request.resolver_match.url_name == 'erp_service' %}bg-gradient-to-r from-[#b6291f] to-[#8a1f15] text-white shadow-lg shadow-[#b6291f]/30{% else %}text-gray-600 dark:text-gray-300 hover:bg-[#b6291f]/10 hover:text-[#b6291f]{% endif %}">
+                    <div class="w-9 h-9 rounded-lg bg-current/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
+                    </div>
+                    <span class="sidebar-text">ERP Service</span>
+                </a>
+                <a href="{% url 'contact' %}" class="group flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-300 {% if request.resolver_match.url_name == 'contact' %}bg-gradient-to-r from-[#b6291f] to-[#8a1f15] text-white shadow-lg shadow-[#b6291f]/30{% else %}text-gray-600 dark:text-gray-300 hover:bg-[#b6291f]/10 hover:text-[#b6291f]{% endif %}">
+                    <div class="w-9 h-9 rounded-lg bg-current/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <span class="sidebar-text">Contact</span>
+                </a>
+                <a href="{% url 'inventory' %}" class="group flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-300 {% if request.resolver_match.url_name == 'inventory' %}bg-gradient-to-r from-[#b6291f] to-[#8a1f15] text-white shadow-lg shadow-[#b6291f]/30{% else %}text-gray-600 dark:text-gray-300 hover:bg-[#b6291f]/10 hover:text-[#b6291f]{% endif %}">
+                    <div class="w-9 h-9 rounded-lg bg-current/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10v10l-8 4m8-4V3l-8 4m0 4V3"></path></svg>
+                    </div>
+                    <span class="sidebar-text">Inventory</span>
+                </a>
+                <a href="{% url 'network_diagram' %}" class="group flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-300 {% if request.resolver_match.url_name == 'network_diagram' %}bg-gradient-to-r from-[#b6291f] to-[#8a1f15] text-white shadow-lg shadow-[#b6291f]/30{% else %}text-gray-600 dark:text-gray-300 hover:bg-[#b6291f]/10 hover:text-[#b6291f]{% endif %}">
+                    <div class="w-9 h-9 rounded-lg bg-current/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                    </div>
+                    <span class="sidebar-text">Network</span>
+                </a>
+            </div>
+
+            <div class="space-y-1">
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3 sidebar-text">NZ IT Module</p>
+                <a href="{% url 'organogram' %}" class="group flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-300 {% if request.resolver_match.url_name == 'organogram' %}bg-gradient-to-r from-[#b6291f] to-[#8a1f15] text-white shadow-lg shadow-[#b6291f]/30{% else %}text-gray-600 dark:text-gray-300 hover:bg-[#b6291f]/10 hover:text-[#b6291f]{% endif %}">
+                    <div class="w-9 h-9 rounded-lg bg-current/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                    </div>
+                    <span class="sidebar-text">Organogram</span>
+                </a>
+                <a href="{% url 'team' %}" class="group flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-300 {% if request.resolver_match.url_name == 'team' %}bg-gradient-to-r from-[#b6291f] to-[#8a1f15] text-white shadow-lg shadow-[#b6291f]/30{% else %}text-gray-600 dark:text-gray-300 hover:bg-[#b6291f]/10 hover:text-[#b6291f]{% endif %}">
+                    <div class="w-9 h-9 rounded-lg bg-current/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    </div>
+                    <span class="sidebar-text">Our Team</span>
+                </a>
+            </div>
+
+            <div class="space-y-1">
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3 sidebar-text">Settings</p>
+                {% if user.is_superuser %}
+                <a href="{% url 'admin_dashboard' %}" class="group flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-[#b6291f]/10 hover:text-[#b6291f] transition-all duration-300">
+                    <div class="w-9 h-9 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="settings" class="w-5 h-5"></i>
+                    </div>
+                    <span class="sidebar-text">Admin Panel</span>
+                </a>
+                {% endif %}
+                <a href="{% url 'profile' %}" class="group flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-[#b6291f]/10 hover:text-[#b6291f] transition-all duration-300">
+                    <div class="w-9 h-9 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </div>
+                    <span class="sidebar-text">Profile Settings</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<style>
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #b6291f;
+    border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #8a1f15;
+}
+</style>
+
+<script>
+document.getElementById('sidebar-toggle').addEventListener('click', function() {
+    document.getElementById('sidebar').classList.toggle('-translate-x-full');
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('main-content');
+    const collapseBtn = document.getElementById('sidebar-collapse');
+    if (!collapseBtn) return;
+    const collapseIcon = collapseBtn.querySelector('svg');
+    
+    let isCollapsed = false;
+    
+    sidebar.style.width = '288px';
+    if (mainContent) {
+        mainContent.classList.remove('ml-20');
+        mainContent.classList.add('ml-72');
+    }
+    document.querySelectorAll('.sidebar-text').forEach(text => {
+        text.classList.remove('hidden');
+        text.style.display = '';
+    });
+
+    collapseBtn.addEventListener('click', function() {
+        isCollapsed = !isCollapsed;
+        
+        if (isCollapsed) {
+            sidebar.style.width = '80px';
+            if (mainContent) {
+                mainContent.classList.remove('ml-72');
+                mainContent.classList.add('ml-20');
+            }
+            collapseIcon.classList.add('rotate-180');
+            document.querySelectorAll('.sidebar-text').forEach(text => {
+                text.classList.add('hidden');
+                text.style.display = 'none';
+            });
+        } else {
+            sidebar.style.width = '288px';
+            if (mainContent) {
+                mainContent.classList.remove('ml-20');
+                mainContent.classList.add('ml-72');
+            }
+            collapseIcon.classList.remove('rotate-180');
+            document.querySelectorAll('.sidebar-text').forEach(text => {
+                text.classList.remove('hidden');
+                text.style.display = '';
+            });
+        }
+    });
+});
+</script>

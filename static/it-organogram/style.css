@@ -4,174 +4,290 @@
     box-sizing: border-box;
 }
 
+:root {
+    --primary: #1a1a2e;
+    --secondary: #16213e;
+    --accent: #e94560;
+    --gold: #f0a500;
+    --glass: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --text: #eaeaea;
+    --text-muted: #a0a0a0;
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f7fa;
-    color: #333;
-    line-height: 1.6;
+    font-family: 'Outfit', 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #0f0f23 100%);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(ellipse at 20% 20%, rgba(233, 69, 96, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(240, 165, 0, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 40px 20px;
+    position: relative;
+    z-index: 1;
 }
 
 h1 {
     text-align: center;
-    color: #2c3e50;
-    margin-bottom: 30px;
-    font-weight: 600;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 60px;
+    background: linear-gradient(90deg, var(--text) 0%, var(--gold) 50%, var(--text) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .org-chart {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    align-items: center;
+    gap: 80px;
 }
 
 .level {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 30px;
     flex-wrap: wrap;
+    position: relative;
+}
+
+.level::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+}
+
+.level:first-child::before {
+    display: none;
+}
+
+.level-label {
+    position: absolute;
+    top: -55px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--accent);
+    font-weight: 600;
+    white-space: nowrap;
 }
 
 .card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+    position: relative;
     width: 280px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: linear-gradient(145deg, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.7));
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 
+        0 20px 40px rgba(233, 69, 96, 0.2),
+        0 0 60px rgba(240, 165, 0, 0.1);
+    border-color: var(--accent);
 }
 
-.card-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 20px;
-    text-align: center;
+.card:hover::before {
+    opacity: 1;
 }
 
 .card-avatar {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 15px;
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 30px auto 20px;
     border-radius: 50%;
-    overflow: hidden;
-    border: 4px solid rgba(255, 255, 255, 0.3);
+    padding: 4px;
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+}
+
+.card-avatar::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    z-index: -1;
+    filter: blur(15px);
+    opacity: 0.5;
 }
 
 .card-avatar img {
     width: 100%;
     height: 100%;
+    border-radius: 50%;
     object-fit: cover;
+    border: 3px solid var(--secondary);
+}
+
+.card-content {
+    padding: 0 25px 25px;
+    text-align: center;
 }
 
 .card-title {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
+    font-weight: 700;
     margin-bottom: 8px;
-    color: white;
-    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.5px;
 }
 
 .card-position {
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    color: var(--gold);
     font-weight: 500;
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
 }
 
-.card-body {
-    padding: 20px;
+.card-position::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
 }
 
-.card-email,
-.card-phone {
+.card-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.card-details span {
     display: flex;
     align-items: center;
-    margin-bottom: 12px;
-    font-size: 0.9rem;
-    color: #555;
+    justify-content: center;
+    gap: 8px;
 }
 
-.card-email::before,
-.card-phone::before {
-    content: '';
-    display: inline-block;
+.card-details svg {
     width: 16px;
     height: 16px;
-    margin-right: 8px;
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-
-.card-email::before {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23667eea" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12l4-2h11l4 2v-12c0-1.1-.9-2-2-2zm-2 9l-3-1.5-3 1.5V9l3-1.5 3 1.5v6zm2-8.5V3.5l-3-1.5-3 1.5V3.5z"/></svg>');
-}
-
-.card-phone::before {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23667eea" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.38 6.38l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.34.57 3.57.57.55 0 1.1.08 1.61.14l2.34-2.34c-.27-.45-.36-1.07-.24-1.61.37-1.12.57-2.34.57-3.57 0-.55-.08-1.1-.14-1.61l-2.34-2.34c-.11-.35-.03-.74.24-1.02.27-.27.67-.36 1.02-.24 2.83 1.44 5.14 3.76 6.38 6.38l-2.2 2.2c-.27.27-.36.67-.24 1.02-.37 1.12-.57 2.34-.57 3.57-.55.55-1.1.08-1.61.14l-2.34 2.34c.27.45.36 1.07.24 1.61a4.79 4.79 0 0 1-.57 3.57c-.55.55-1.1.08-1.61-.14l-2.34-2.34c-.45.27-1.07.36-1.61.24-1.12-.37-2.34-.57-3.57-.57-.55 0-1.1-.08-1.61-.14l2.34-2.34z"/></svg>');
-}
-
-.level.executive {
-    margin-top: 40px;
+    fill: var(--accent);
+    opacity: 0.7;
 }
 
 .level.executive .card {
     width: 320px;
 }
 
+.level.executive .card-avatar {
+    width: 120px;
+    height: 120px;
+}
+
 .level.executive .card-title {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
 }
 
 .level.executive .card-position {
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
-.level.executive .card-avatar {
-    width: 100px;
-    height: 100px;
+.level.executive::before {
+    display: none;
+}
+
+.connector {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
 }
 
 @media (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+    
     .level {
-        justify-content: center;
+        gap: 20px;
     }
     
     .card {
-        width: 90%;
-        max-width: 300px;
+        width: 240px;
     }
     
     .level.executive .card {
-        width: 90%;
-        max-width: 340px;
+        width: 260px;
+    }
+    
+    .level-label {
+        font-size: 0.65rem;
     }
 }
 
 @media (max-width: 480px) {
     .container {
-        padding: 10px;
+        padding: 20px 15px;
     }
     
     h1 {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
+        margin-bottom: 40px;
     }
     
-    .card-title {
-        font-size: 1.2rem;
+    .org-chart {
+        gap: 50px;
     }
     
-    .card-position {
-        font-size: 0.9rem;
-    }
-    
-    .card-body {
-        padding: 15px;
+    .card {
+        width: 100%;
+        max-width: 280px;
     }
 }

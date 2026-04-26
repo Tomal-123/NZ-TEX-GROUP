@@ -1,0 +1,284 @@
+{% extends 'base.html' %}
+
+{% block title %}Inventory - NZ TEX IT{% endblock %}
+
+{% block content %}
+<section class="pt-20 pb-12 min-h-screen">
+    <div class="w-full px-4">
+        <!-- Header -->
+        <div class="flex flex-wrap items-center justify-between mb-6 gap-4">
+            <div>
+                <a href="/inventory/" class="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-[#b6291f] transition-colors mb-2">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    Back to Inventory
+                </a>
+                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ shed_display_name }}</h1>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <button onclick="addRow()" class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                    Add Row
+                </button>
+                <button onclick="addColumn()" class="px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
+                    <i data-lucide="columns" class="w-4 h-4"></i>
+                    Add Column
+                </button>
+                <label class="px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2 cursor-pointer">
+                    <i data-lucide="upload" class="w-4 h-4"></i>
+                    Import
+                    <input type="file" accept=".csv,.xlsx,.xls" class="hidden" onchange="importExcel(this)">
+                </label>
+                <button onclick="exportExcel()" class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
+                    <i data-lucide="download" class="w-4 h-4"></i>
+                    Export
+                </button>
+                <button onclick="saveInventory()" id="saveBtn" class="px-3 py-2 bg-[#b6291f] hover:bg-[#8a1f15] text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
+                    <i data-lucide="save" class="w-4 h-4"></i>
+                    Save
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                <p class="text-xs text-gray-500 dark:text-gray-400">Total Items</p>
+                <p class="text-xl font-bold text-gray-900 dark:text-white" id="grandTotal">0</p>
+            </div>
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                <p class="text-xs text-gray-500 dark:text-gray-400">Departments</p>
+                <p class="text-xl font-bold text-gray-900 dark:text-white">{{ rows|length }}</p>
+            </div>
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                <p class="text-xs text-gray-500 dark:text-gray-400">Categories</p>
+                <p class="text-xl font-bold text-gray-900 dark:text-white">{{ categories|length }}</p>
+            </div>
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                <p class="text-xs text-gray-500 dark:text-gray-400">Last Updated</p>
+                <p class="text-sm font-medium text-gray-900 dark:text-white" id="lastUpdated">--</p>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-x-auto">
+            <table class="w-full border-collapse text-sm" id="inventoryTable">
+                <thead class="bg-gray-50 dark:bg-gray-700/50">
+                    <tr>
+                        <th class="border border-gray-300 dark:border-gray-600 py-2 px-3 text-xs font-semibold text-gray-700 dark:text-gray-200 text-left sticky left-0 bg-gray-50 dark:bg-gray-700/50 z-10 min-w-[150px]">Department</th>
+                        {% for cat in categories %}
+                        <th class="border border-gray-300 dark:border-gray-600 py-2 px-3 text-xs font-semibold text-gray-700 dark:text-gray-200 text-center min-w-[80px]">{{ cat.name }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    {% for row in rows %}
+                    <tr data-dept="{{ row.code }}">
+                        <td class="border border-gray-300 dark:border-gray-600 py-2 px-3 text-xs font-semibold text-[#b6291f] bg-gray-50 dark:bg-gray-700/30 sticky left-0 z-10">{{ row.name }}</td>
+                        {% for cat in categories %}
+                        <td class="border border-gray-300 dark:border-gray-600 py-1 px-2 text-center">
+                            <input type="number" min="0" value="0" class="w-full text-center text-xs border-0 bg-transparent focus:outline-none focus:bg-yellow-50 dark:focus:bg-yellow-900/30" onchange="updateCell(this)" onfocus="selectCell(this)">
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                    <tr class="bg-green-50 dark:bg-green-900/30 font-bold">
+                        <td class="border border-gray-300 dark:border-gray-600 py-2 px-3 text-xs font-semibold text-gray-900 dark:text-white">Total</td>
+                        {% for cat in categories %}
+                        <td class="border border-gray-300 dark:border-gray-600 py-2 px-3 text-xs font-semibold text-gray-900 dark:text-white col-total">0</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<script>
+    const shedName = '{{ shed_name }}';
+    const shedUrl = shedName.replace('shed1', 'shed-1').replace('shed2', 'shed-2').replace('shed3', 'shed-3').replace('it_stock', 'it-stock').replace('all_it', 'all-it').replace('it_department', 'it-department');
+    let tableData = {{ table_json|safe }};
+    
+    function initTable() {
+        if (!tableData || Object.keys(tableData).length === 0) {
+            calculateAll();
+            return;
+        }
+        
+        for (const deptCode in tableData) {
+            const row = document.querySelector(`tr[data-dept="${deptCode}"]`);
+            if (!row) continue;
+            
+            const rowData = tableData[deptCode] || [];
+            const inputs = row.querySelectorAll('input');
+            
+            let colIdx = 0;
+            {% for cat in categories %}
+            if (rowData['{{ cat.code }}'] !== undefined) {
+                const input = inputs[colIdx];
+                if (input) input.value = rowData['{{ cat.code }}'] || 0;
+            }
+            colIdx++;
+            {% endfor %}
+        }
+        calculateAll();
+    }
+    
+    function calculateAll() {
+        const rows = document.querySelectorAll('#tableBody tr[data-dept]');
+        const colTotals = document.querySelectorAll('.col-total');
+        colTotals.forEach(td => td.textContent = '0');
+        
+        let grandTotal = 0;
+        
+        rows.forEach(row => {
+            const inputs = row.querySelectorAll('input');
+            inputs.forEach((input, idx) => {
+                const val = parseInt(input.value) || 0;
+                grandTotal += val;
+                if (colTotals[idx]) {
+                    const current = parseInt(colTotals[idx].textContent) || 0;
+                    colTotals[idx].textContent = current + val;
+                }
+            });
+        });
+        
+        document.getElementById('grandTotal').textContent = grandTotal;
+        document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString();
+    }
+    
+    function updateCell(input) {
+        calculateAll();
+    }
+    
+    function selectCell(input) {
+        const cell = input.closest('td');
+        const row = cell.closest('tr');
+        if (row && row.dataset.dept) {
+            document.getElementById('lastUpdated').textContent = cell.cellIndex + ' - ' + row.dataset.dept;
+        }
+    }
+    
+    function addRow() {
+        const deptName = prompt('Enter Department Name:');
+        if (!deptName) return;
+        
+        const deptCode = deptName.toLowerCase().replace(/\s+/g, '_');
+        
+        fetch(`/inventory/${shedUrl}/add-row/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({ name: deptName, code: deptCode })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'success') {
+                location.reload();
+            } else {
+                alert(data.message || 'Failed to add row');
+            }
+        })
+        .catch(err => alert('Error: ' + err.message));
+    }
+    
+    function addColumn() {
+        const catName = prompt('Enter Category Name:');
+        if (!catName) return;
+        
+        const catCode = catName.toLowerCase().replace(/\s+/g, '_');
+        
+        fetch(`/inventory/${shedUrl}/add-column/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({ name: catName, code: catCode })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'success') {
+                location.reload();
+            } else {
+                alert(data.message || 'Failed to add column');
+            }
+        })
+        .catch(err => alert('Error: ' + err.message));
+    }
+    
+    function importExcel(input) {
+        const file = input.files[0];
+        if (!file) return;
+        
+        const formData = new FormData();
+        formData.append('import_file', file);
+        
+        fetch(`/inventory/${shedUrl}/import/`, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        })
+        .then(res => {
+            if (res.ok) {
+                alert('Data imported successfully!');
+                location.reload();
+            } else {
+                alert('Import failed!');
+            }
+        })
+        .catch(err => console.error(err));
+    }
+    
+    function exportExcel() {
+        window.location.href = `/inventory/${shedUrl}/export-excel/`;
+    }
+    
+    function saveInventory() {
+        const btn = document.getElementById('saveBtn');
+        btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Saving...';
+        lucide.createIcons();
+        
+        const data = {};
+        const rows = document.querySelectorAll('#tableBody tr[data-dept]');
+        
+        rows.forEach(row => {
+            const deptCode = row.dataset.dept;
+            data[deptCode] = [];
+            const inputs = row.querySelectorAll('input');
+            inputs.forEach(input => {
+                data[deptCode].push(parseInt(input.value) || 0);
+            });
+        });
+        
+        fetch(`/inventory/${shedUrl}/save/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({ data: data })
+        })
+        .then(res => res.json())
+        .then(result => {
+            btn.innerHTML = '<i data-lucide="save" class="w-4 h-4"></i> Save';
+            lucide.createIcons();
+            if (result.status === 'success') {
+                alert('Saved successfully!');
+            } else {
+                alert('Error: ' + result.message);
+            }
+        })
+        .catch(error => {
+            btn.innerHTML = '<i data-lucide="save" class="w-4 h-4"></i> Save';
+            lucide.createIcons();
+            alert('Error: ' + error.message);
+        });
+    }
+    
+    document.addEventListener('DOMContentLoaded', initTable);
+</script>
+{% endblock %}

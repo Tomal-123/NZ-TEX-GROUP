@@ -1,168 +1,474 @@
 {% extends 'base.html' %}
 
-{% block title %}Meet Our Team - NZ TEX IT{% endblock %}
+{% block title %}Our Team - NZ TEX IT{% endblock %}
+
+{% block extra_css %}
+<style>
+:root {
+    --primary: #b6291f;
+    --primary-dark: #8a1f15;
+}
+.gradient-text {
+    background: linear-gradient(135deg, var(--primary), #d63031);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+.dark .glass-card {
+    background: rgba(30, 41, 59, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+.card-glow {
+    position: relative;
+    overflow: hidden;
+}
+.card-glow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.6s;
+}
+.card-glow:hover::before {
+    left: 100%;
+}
+.member-card {
+    background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    min-width: 260px;
+}
+.member-card p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 230px;
+}
+.dark .member-card {
+    background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.member-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+.dark .member-card:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+.number-badge {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+.section-title {
+    position: relative;
+    display: inline-block;
+}
+.section-title::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), #d63031);
+    border-radius: 2px;
+}
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary), transparent);
+    border-radius: 2px;
+}
+.scroll-container {
+    position: relative;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    scrollbar-width: thin;
+    scrollbar-color: #b6291f rgba(255,255,255,0.3);
+}
+.scroll-container::-webkit-scrollbar {
+    height: 8px;
+}
+.scroll-container::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.3);
+    border-radius: 4px;
+}
+.scroll-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, #b6291f, #d63031);
+    border-radius: 4px;
+}
+.scrolling-wrapper {
+    display: flex;
+    gap: 20px;
+    padding: 10px 5px;
+}
+.hero-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #b6291f 100%);
+    background-size: 200% 200%;
+    animation: gradient-shift 8s ease infinite;
+}
+@keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+.floating {
+    animation: floating 3s ease-in-out infinite;
+}
+@keyframes floating {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+.pulse-ring {
+    animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+}
+@keyframes pulse-ring {
+    0% { transform: scale(0.8); opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+</style>
+{% endblock %}
 
 {% block content %}
-<!-- Team Section -->
-<section class="pt-20 pb-16 bg-gradient-to-b from-slate-50 dark:from-gray-900 to-indigo-50 dark:to-indigo-900 overflow-hidden">
-    <div class="w-[95%] md:w-[90%] mx-auto px-2 md:px-4">
-        <div class="text-center mb-2 w-full pt-2">
-            <span class="inline-block px-3 md:px-4 py-1.5 md:py-2 rounded-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white text-xl md:text-3xl font-semibold mb-2">
-                NZ TEX IT
-            </span>
-            <h2 class="text-base md:text-xl font-bold text-gray-900 dark:text-white">
-                Meet Our IT Team Members
-            </h2>
-            <p class="text-gray-500 dark:text-gray-400 text-xs md:text-sm">Dedicated professionals working together</p>
-        </div>
-        
-        <div class="mb-6 md:mb-10">
-            <div class="flex items-center gap-3 mb-2">
-                <div class="flex items-center justify-center text-indigo-600 dark:text-indigo-400 animate-pulse">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 md:w-5 md:h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" />
-                    </svg>
-                </div>
-                <h3 class="text-sm md:text-lg font-semibold text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 px-2 py-1 rounded-full inline-block">Head Office (IT)</h3>
+<section class="pt-20 pb-16 min-h-screen relative overflow-hidden">
+    <!-- Background decoration -->
+    <div class="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900"></div>
+    <div class="absolute top-0.50 left-10 w-72 h-72 bg-[#b6291f]/10 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
+    
+    <div class="w-full max-w-[1800px] mx-auto px-4 relative z-10">
+        <!-- Header -->
+        <div class="text-center mb-16">
+            <div class="inline-flex items-center gap-0.5 px-5 py-2.5 bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-full mb-6 border border-gray-200/50 dark:border-gray-700/50 shadow-lg">
+                <span class="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse"></span>
+                <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Meet Our Professional Team</span>
             </div>
-            <div class="relative">
-                <div class="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-slate-50 dark:from-gray-900 to-transparent z-10"></div>
-                <div class="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-indigo-50 dark:from-gray-900 to-transparent z-10"></div>
-                <div class="flex team-track-1 overflow-hidden py-2">
-                    <div class="flex team-content-1" style="width: max-content;">
-                        <div class="group mx-1 md:mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-1 md:p-2 min-w-[140px] md:min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-indigo-300 dark:hover:border-indigo-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-4 h-4 md:w-6 md:h-6 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold text-[10px] md:text-xs mx-auto mb-0.5 md:mb-1">1</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-[10px] md:text-xs">Md. Shahidul Islam</p><p class="text-[8px] md:text-[10px] text-gray-400 dark:text-gray-500">AGM</p></div></div></div>
-                        <div class="group mx-1 md:mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-1 md:p-2 min-w-[140px] md:min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-pink-300 dark:hover:border-pink-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-4 h-4 md:w-6 md:h-6 rounded-full bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center text-white font-bold text-[10px] md:text-xs mx-auto mb-0.5 md:mb-1">2</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-[10px] md:text-xs">Jannatun Nayem</p><p class="text-[8px] md:text-[10px] text-gray-400 dark:text-gray-500">Jr Executive</p></div></div></div>
-                        <div class="group mx-1 md:mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-1 md:p-2 min-w-[140px] md:min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-4 h-4 md:w-6 md:h-6 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold text-[10px] md:text-xs mx-auto mb-0.5 md:mb-1">3</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-[10px] md:text-xs">Md. Bappi</p><p class="text-[8px] md:text-[10px] text-gray-400 dark:text-gray-500">Asst. Executive</p></div></div></div>
-                        <div class="group mx-1 md:mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-1 md:p-2 min-w-[140px] md:min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-indigo-300 dark:hover:border-indigo-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-4 h-4 md:w-6 md:h-6 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold text-[10px] md:text-xs mx-auto mb-0.5 md:mb-1">1</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-[10px] md:text-xs">Md. Shahidul Islam</p><p class="text-[8px] md:text-[10px] text-gray-400 dark:text-gray-500">AGM</p></div></div></div>
-                        <div class="group mx-1 md:mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-1 md:p-2 min-w-[140px] md:min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-pink-300 dark:hover:border-pink-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-4 h-4 md:w-6 md:h-6 rounded-full bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center text-white font-bold text-[10px] md:text-xs mx-auto mb-0.5 md:mb-1">2</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-[10px] md:text-xs">Jannatun Nayem</p><p class="text-[8px] md:text-[10px] text-gray-400 dark:text-gray-500">Jr Executive</p></div></div></div>
-                        <div class="group mx-1 md:mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-1 md:p-2 min-w-[140px] md:min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-4 h-4 md:w-6 md:h-6 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold text-[10px] md:text-xs mx-auto mb-0.5 md:mb-1">3</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-[10px] md:text-xs">Md. Bappi</p><p class="text-[8px] md:text-[10px] text-gray-400 dark:text-gray-500">Asst. Executive</p></div></div></div>
+            <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">
+                <span class="gradient-text">Our Team</span>
+            </h1>
+            <p class="text-gray-500 dark:text-gray-400 text-lg max-w-2xl mx-auto">The talented people behind NZ TEX IT success</p>
+        </div>
+
+        <!-- Head Office IT -->
+        <div class="mb-16">
+            <div class="text-center mb-10">
+                <div class="inline-flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 hero-gradient rounded-xl flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                    </div>
+                    <h2 class="section-title text-3xl font-bold text-gray-900 dark:text-white">Head Office (IT)</h2>
+                </div>
+            </div>
+            <div class="glass-card rounded-3xl p-0.5">
+                <div class="scroll-container py-6">
+                    <div class="scrolling-wrapper justify-center">
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white mx-auto">1</div>
+                                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 opacity-50 blur-lg"></div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Md. Shahidul Islam</p>
+                            <span class="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-indigo-500 to-pink-500 text-white text-xs font-medium rounded-full">AGM</span>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating" style="animation-delay: 0.2s;">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-pink-500 via-rose-500 to-red-500 text-white mx-auto">2</div>
+                                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-pink-500 via-rose-500 to-red-500 opacity-50 blur-lg"></div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Jannatun Nayem</p>
+                            <span class="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-pink-500 to-red-500 text-white text-xs font-medium rounded-full">Jr Executive</span>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating" style="animation-delay: 0.4s;">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500 text-white mx-auto">3</div>
+                                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500 opacity-50 blur-lg"></div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Md. Bappi</p>
+                            <span class="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-blue-500 to-teal-500 text-white text-xs font-medium rounded-full">Asst. Executive</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div class="mb-10">
-            <div class="flex items-center gap-3 mb-2">
-                <div class="flex items-center justify-center text-emerald-600 dark:text-emerald-400 animate-pulse">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" />
-                    </svg>
+
+        <!-- NZ Textile ERP Team -->
+        <div class="mb-16">
+            <div class="text-center mb-10">
+                <div class="inline-flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    </div>
+                    <h2 class="section-title text-3xl font-bold text-gray-900 dark:text-white">NZ Textile - ERP Team</h2>
                 </div>
-                <h3 class="text-lg font-semibold text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 px-2 py-1 rounded-full inline-block">NZ Textile (IT)</h3>
             </div>
-            <div class="flex items-center justify-center gap-3 mb-4 ml-6 mt-6">
-                <div class="flex items-center justify-center text-emerald-500 dark:text-emerald-400 animate-pulse">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0v-1.5a3 3 0 00-3-3h-1.5" />
-                    </svg>
-                </div>
-                <span class="text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 px-2 py-0.5 rounded-full inline-block">ERP Team</span>
-            </div>
-            <div class="relative">
-                <div class="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-slate-50 dark:from-gray-900 to-transparent z-10"></div>
-                <div class="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-indigo-50 dark:from-gray-900 to-transparent z-10"></div>
-                <div class="flex team-track-2 overflow-hidden py-2">
-                    <div class="flex team-content-2" style="width: max-content;">
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-emerald-300 dark:hover:border-emerald-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">1</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Mamun Chowdhury</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Sr. Manager</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-emerald-300 dark:hover:border-emerald-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">2</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Sharifa Akter</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Manager</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-emerald-300 dark:hover:border-emerald-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">3</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Kh Shariful Islam</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Sr. Support Engineer</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-emerald-300 dark:hover:border-emerald-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">4</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Habiba Akther Sume</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Support Engineer</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-emerald-300 dark:hover:border-emerald-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">5</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Sonya Akter</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Support Engineer</p></div></div></div>
-                         <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-emerald-300 dark:hover:border-emerald-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">6</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Md. Asraful Alam</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Support Engineer</p></div></div></div>
-                         <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-emerald-300 dark:hover:border-emerald-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">7</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Arman Hosen</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Support Engineer</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-emerald-300 dark:hover:border-emerald-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">8</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Al-Amin</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Support Engineer</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-emerald-300 dark:hover:border-emerald-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">9</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Forhad Ahamed</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Support Engineer</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-emerald-300 dark:hover:border-emerald-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">10</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Sheikh Md. Ibrahim</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Support Engineer</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-emerald-300 dark:hover:border-emerald-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">11</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Abidur Rahman</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Support Engineer</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-emerald-300 dark:hover:border-emerald-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">12</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Md. Firojur Rahman</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Support Engineer</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-emerald-300 dark:hover:border-emerald-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">1</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Mamun Chowdhury</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Sr. Manager</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-emerald-300 dark:hover:border-emerald-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">2</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Sharifa Akter</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Manager</p></div></div></div>
+            <div class="glass-card rounded-3xl p-0.5">
+                <div class="scroll-container py-6">
+                    <div class="scrolling-wrapper">
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 text-white mx-auto">1</div>
+                                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 opacity-50 blur-lg"></div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Mamun Chowdhury</p>
+                            <p class="text-emerald-600 dark:text-emerald-400 font-semibold text-sm mt-1">Sr. Manager</p>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating" style="animation-delay: 0.2s;">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 text-white mx-auto">2</div>
+                                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 opacity-50 blur-lg"></div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Sharifa Akter</p>
+                            <p class="text-emerald-600 dark:text-emerald-400 font-semibold text-sm mt-1">Asst. Manager</p>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating" style="animation-delay: 0.3s;">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 text-white mx-auto">3</div>
+                                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 opacity-50 blur-lg"></div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Kh. Shariful Islam</p>
+                            <p class="text-emerald-600 dark:text-emerald-400 font-semibold text-sm mt-1">Sr. Support Engineer</p>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating" style="animation-delay: 0.4s;">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 text-white mx-auto">4</div>
+                                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 opacity-50 blur-lg"></div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Habiba Akther Sume</p>
+                            <p class="text-emerald-600 dark:text-emerald-400 font-semibold text-sm mt-1">Asst. Support Engineer</p>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating" style="animation-delay: 0.5s;">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 text-white mx-auto">5</div>
+                                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 opacity-50 blur-lg"></div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Sonya Akter</p>
+                            <p class="text-emerald-600 dark:text-emerald-400 font-semibold text-sm mt-1">Asst. Support Engineer</p>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating" style="animation-delay: 0.6s;">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 text-white mx-auto">6</div>
+                                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 opacity-50 blur-lg"></div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Forhad Ahamed</p>
+                            <p class="text-emerald-600 dark:text-emerald-400 font-semibold text-sm mt-1">Asst. Support Engineer</p>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating" style="animation-delay: 0.7s;">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 text-white mx-auto">7</div>
+                                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 opacity-50 blur-lg"></div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Md. Asraful Alam</p>
+                            <p class="text-emerald-600 dark:text-emerald-400 font-semibold text-sm mt-1">Asst. Support Engineer</p>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating" style="animation-delay: 0.8s;">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 text-white mx-auto">8</div>
+                                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 opacity-50 blur-lg"></div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Al-Amin</p>
+                            <p class="text-emerald-600 dark:text-emerald-400 font-semibold text-sm mt-1">Asst. Support Engineer</p>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating" style="animation-delay: 0.9s;">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 text-white mx-auto">9</div>
+                                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 opacity-50 blur-lg"></div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Arman Hosen</p>
+                            <p class="text-emerald-600 dark:text-emerald-400 font-semibold text-sm mt-1">Asst. Support Engineer</p>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating" style="animation-delay: 1s;">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 text-white mx-auto">10</div>
+                                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 opacity-50 blur-lg"></div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Sheikh Md. Ibrahim</p>
+                            <p class="text-emerald-600 dark:text-emerald-400 font-semibold text-sm mt-1">Asst. Support Engineer</p>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating" style="animation-delay: 1.1s;">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 text-white mx-auto">11</div>
+                                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 opacity-50 blur-lg"></div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Abidur Rahman</p>
+                            <p class="text-emerald-600 dark:text-emerald-400 font-semibold text-sm mt-1">Asst. Support Engineer</p>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating" style="animation-delay: 1.2s;">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 text-white mx-auto">12</div>
+                                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 opacity-50 blur-lg"></div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Md. Firojur Rahman</p>
+                            <p class="text-emerald-600 dark:text-emerald-400 font-semibold text-sm mt-1">Asst. Support Engineer</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div class="mb-10">
-            <div class="flex items-center justify-center gap-3 mb-4">
-                <div class="flex items-center justify-center text-emerald-600 dark:text-emerald-400 animate-pulse">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
-                    </svg>
+
+        <!-- NZ Textile Support Team -->
+        <div class="mb-16">
+            <div class="text-center mb-10">
+                <div class="inline-flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.172l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    </div>
+                    <h2 class="section-title text-3xl font-bold text-gray-900 dark:text-white">NZ Textile - Support Team</h2>
                 </div>
-                <span class="text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 px-2 py-0.5 rounded-full inline-block">Support Team</span>
             </div>
-            <div class="relative">
-                <div class="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-slate-50 dark:from-gray-900 to-transparent z-10"></div>
-                <div class="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-indigo-50 dark:from-gray-900 to-transparent z-10"></div>
-                <div class="flex team-track-3 overflow-hidden py-2">
-                    <div class="flex team-content-3" style="width: max-content;">
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-amber-300 dark:hover:border-amber-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">1</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Md. Abdullah Al Moneem</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Dy. Manager</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-amber-300 dark:hover:border-amber-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">2</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Emran Molla</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Support Engineer</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-amber-300 dark:hover:border-amber-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">3</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Md. Hamim Sizda</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Support Engineer</p></div></div></div>
-                         <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-amber-300 dark:hover:border-amber-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">4</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Md. Asraful Islam</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Support Engineer</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-amber-300 dark:hover:border-amber-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">5</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Md. Najmul Hasan</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Technician</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-amber-300 dark:hover:border-amber-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">6</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Muhtasin Hossain Tanim</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. IT Technician</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-amber-300 dark:hover:border-amber-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">7</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Azizul Hakim</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. IT Technician</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-amber-300 dark:hover:border-amber-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">8</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Sojib Miah</p><p class="text-[10px] text-gray-400 dark:text-gray-500">IT Assistant</p></div></div></div>
+            <div class="glass-card rounded-3xl p-0.5">
+                <div class="scroll-container py-6">
+                    <div class="scrolling-wrapper">
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 text-white mx-auto">1</div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Md. Abdullah Al Moneem</p>
+                            <span class="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-medium rounded-full">Dy. Manager</span>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 text-white mx-auto">2</div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Emran Molla</p>
+                            <span class="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-medium rounded-full">Asst. Support Engineer</span>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 text-white mx-auto">3</div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Md. Hamim Sizda</p>
+                            <span class="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-medium rounded-full">Asst. Support Engineer</span>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 text-white mx-auto">4</div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Md. Asraful Islam</p>
+                            <span class="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-medium rounded-full">Asst. Support Engineer</span>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 text-white mx-auto">5</div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Md. Najmul Hasan</p>
+                            <span class="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-medium rounded-full">Technician</span>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 text-white mx-auto">6</div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Muhtasin Hossain Tanim</p>
+                            <span class="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-medium rounded-full">Asst. IT Technician</span>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 text-white mx-auto">7</div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Azizul Hakim</p>
+                            <span class="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-medium rounded-full">Asst. IT Technician</span>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 text-white mx-auto">8</div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Sojib Miah</p>
+                            <span class="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-medium rounded-full">IT Assistant</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div class="mb-10">
-            <div class="flex items-center gap-3 mb-2">
-                <div class="flex items-center justify-center text-emerald-600 dark:text-emerald-400 animate-pulse">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" />
-                    </svg>
+
+        <!-- NZ Apparels IT -->
+        <div class="mb-16">
+            <div class="text-center mb-10">
+                <div class="inline-flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 bg-gradient-to-br from-rose-500 to-pink-500 rounded-xl flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                    </div>
+                    <h2 class="section-title text-3xl font-bold text-gray-900 dark:text-white">NZ Apparels (IT)</h2>
                 </div>
-                <h3 class="text-lg font-semibold text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 px-2 py-1 rounded-full inline-block">NZ Apparels (IT)</h3>
             </div>
-            <div class="relative">
-                <div class="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-slate-50 dark:from-gray-900 to-transparent z-10"></div>
-                <div class="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-indigo-50 dark:from-gray-900 to-transparent z-10"></div>
-                <div class="flex team-track-4 overflow-hidden py-2">
-                    <div class="flex team-content-4" style="width: max-content;">
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-rose-300 dark:hover:border-rose-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">1</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Mahiruzzaman</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Sr. Manager</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-rose-300 dark:hover:border-rose-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">2</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Md Tomal Sarker</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Manager</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-rose-300 dark:hover:border-rose-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">3</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Md. Mahedi Hasan Shaikat</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Support Engineer</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-rose-300 dark:hover:border-rose-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">4</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Md. Shakil Mia</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Support Engineer</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-rose-300 dark:hover:border-rose-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">5</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Md. Hasnat Shahriyar</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Support Engineer</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-rose-300 dark:hover:border-rose-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">6</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Safiqul Mridha</p><p class="text-[10px] text-gray-400 dark:text-gray-500">NZ Apparels IT</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-rose-300 dark:hover:border-rose-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">1</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Mahiruzzaman</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Sr. Manager</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-rose-300 dark:hover:border-rose-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">2</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Md Tomal Sarker</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Manager</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-rose-300 dark:hover:border-rose-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">3</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Md. Mahedi Hasan Shaikat</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Support Engineer</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-rose-300 dark:hover:border-rose-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">4</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Md. Shakil Mia</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Support Engineer</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-rose-300 dark:hover:border-rose-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">5</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Md. Hasnat Shahriyar</p><p class="text-[10px] text-gray-400 dark:text-gray-500">Asst. Support Engineer</p></div></div></div>
-                        <div class="group mx-3"><div class="bg-white dark:bg-gray-800 rounded-lg p-2 min-w-[200px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-rose-300 dark:hover:border-rose-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"><div class="text-center"><div class="w-6 h-6 rounded-full bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs mx-auto mb-1">6</div><p class="text-gray-800 dark:text-gray-200 font-semibold text-xs">Safiqul Mridha</p><p class="text-[10px] text-gray-400 dark:text-gray-500">NZ Apparels IT</p></div></div></div>
+            <div class="glass-card rounded-3xl p-0.5">
+                <div class="scroll-container py-6">
+                    <div class="scrolling-wrapper">
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-rose-500 via-pink-500 to-purple-500 text-white mx-auto">1</div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Mahiruzzaman</p>
+                            <span class="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-medium rounded-full">Sr. Manager</span>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-rose-500 via-pink-500 to-purple-500 text-white mx-auto">2</div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Md Tomal Sarker</p>
+                            <span class="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-medium rounded-full">Asst. Manager</span>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-rose-500 via-pink-500 to-purple-500 text-white mx-auto">3</div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Md. Mahedi Hasan Shaikat</p>
+                            <span class="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-medium rounded-full">Asst. Support Engineer</span>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-rose-500 via-pink-500 to-purple-500 text-white mx-auto">4</div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Md. Hasnat Shahriyar</p>
+                            <span class="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-medium rounded-full">Asst. Support Engineer</span>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-rose-500 via-pink-500 to-purple-500 text-white mx-auto">5</div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Md. Shakil Mia</p>
+                            <span class="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-medium rounded-full">Asst. Support Engineer</span>
+                        </div>
+                        <div class="member-card rounded-2xl p-0.5 min-w-[260px] text-center card-glow floating">
+                            <div class="relative inline-block mb-4">
+                                <div class="number-badge bg-gradient-to-br from-rose-500 via-pink-500 to-purple-500 text-white mx-auto">6</div>
+                            </div>
+                            <p class="text-gray-900 dark:text-white font-bold text-base">Safiqul Mridha</p>
+                            <span class="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-medium rounded-full">Asst. Technician</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div class="text-center mt-8">
-            <a href="/" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700">
+
+        <!-- Back Button -->
+        <div class="text-center mt-12">
+            <a href="/" class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#b6291f] to-[#8a1f15] text-white rounded-2xl font-bold text-base hover:shadow-2xl hover:shadow-[#b6291f]/40 hover:scale-105 transition-all duration-300">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                 Back to Home
             </a>
         </div>
     </div>
 </section>
-
-<style>
-.team-track-1:hover .team-content-1,
-.team-track-2:hover .team-content-2,
-.team-track-3:hover .team-content-3,
-.team-track-4:hover .team-content-4 {
-    animation-play-state: paused;
-}
-
-.team-content-1, .team-content-2, .team-content-3, .team-content-4 {
-    animation: scroll 50s linear infinite;
-}
-
-@keyframes scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-</style>
 {% endblock %}

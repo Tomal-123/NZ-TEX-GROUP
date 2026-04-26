@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+
+{% block title %}Inventory - NZ TEX IT{% endblock %}
+
+{% block content %}
+<section class="pt-20 pb-12 min-h-screen">
+    <div class="w-full px-4">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Inventory Management</h1>
+            <p class="text-gray-500 dark:text-gray-400">Manage your assets and stock</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-5 border border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Total Items</p>
+                        <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ total_items }}</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                        <i data-lucide="package" class="w-5 h-5 text-blue-600 dark:text-blue-400"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-5 border border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">In Stock</p>
+                        <p class="text-2xl font-bold text-green-600">{{ in_stock }}</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-green-600 dark:text-green-400"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-5 border border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Categories</p>
+                        <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ category_totals|length }}</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+                        <i data-lucide="layout-grid" class="w-5 h-5 text-purple-600 dark:text-purple-400"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="flex flex-wrap gap-3 mb-8">
+            <a href="/inventory/manage-shed/" class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                <i data-lucide="warehouse" class="w-4 h-4 inline mr-2"></i>
+                Manage Sheds
+            </a>
+            <a href="/inventory/manage-department/" class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                <i data-lucide="building" class="w-4 h-4 inline mr-2"></i>
+                Departments
+            </a>
+            <a href="/inventory/manage-category/" class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                <i data-lucide="tag" class="w-4 h-4 inline mr-2"></i>
+                Categories
+            </a>
+        </div>
+
+        <!-- Inventory Locations -->
+        <div class="mb-8">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Inventory Locations</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <a href="/inventory/shed-1/" class="bg-white dark:bg-gray-800 rounded-lg p-5 border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow block">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-[#b6291f]/10 flex items-center justify-center">
+                            <i data-lucide="warehouse" class="w-5 h-5 text-[#b6291f]"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 dark:text-white">NZ Apparels Shed-1</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">View inventory</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="/inventory/shed-2/" class="bg-white dark:bg-gray-800 rounded-lg p-5 border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow block">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-[#b6291f]/10 flex items-center justify-center">
+                            <i data-lucide="warehouse" class="w-5 h-5 text-[#b6291f]"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 dark:text-white">NZ Apparels Shed-2</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">View inventory</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="/inventory/shed-3/" class="bg-white dark:bg-gray-800 rounded-lg p-5 border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow block">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-[#b6291f]/10 flex items-center justify-center">
+                            <i data-lucide="warehouse" class="w-5 h-5 text-[#b6291f]"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 dark:text-white">NZ Apparels Shed-3</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">View inventory</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="/inventory/it-department/" class="bg-white dark:bg-gray-800 rounded-lg p-5 border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow block">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                            <i data-lucide="monitor" class="w-5 h-5 text-blue-600 dark:text-blue-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 dark:text-white">IT Department</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">View inventory</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="/inventory/it-stock/" class="bg-white dark:bg-gray-800 rounded-lg p-5 border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow block">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+                            <i data-lucide="server" class="w-5 h-5 text-purple-600 dark:text-purple-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 dark:text-white">IT Stock Product</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">View inventory</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="/inventory/all-it/" class="bg-white dark:bg-gray-800 rounded-lg p-5 border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow block">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                            <i data-lucide="package" class="w-5 h-5 text-green-600 dark:text-green-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 dark:text-white">All IT Products</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">View inventory</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Category Summary -->
+        {% if category_totals %}
+        <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Category Summary</h2>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+                    {% for cat_name, total in category_totals.items %}
+                    <div class="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg text-center">
+                        <p class="text-sm font-medium text-gray-900 dark:text-white">{{ cat_name }}</p>
+                        <p class="text-lg font-bold text-[#b6291f]">{{ total }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Recent Items Table -->
+        {% if recent_items %}
+        <div class="mt-8 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Recent Items</h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50 dark:bg-gray-700/50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Category</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Department</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Quantity</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                        {% for item in recent_items %}
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-white">{{ item.get_category_display }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">{{ item.get_department_display }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-900 dark:text-white">{{ item.quantity }}</td>
+                            <td class="px-6 py-4">
+                                {% if item.quantity == 0 %}
+                                <span class="px-2 py-1 text-xs font-semibold bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 rounded-full">Out of Stock</span>
+                                {% elif item.quantity < 5 %}
+                                <span class="px-2 py-1 text-xs font-semibold bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-full">Low Stock</span>
+                                {% else %}
+                                <span class="px-2 py-1 text-xs font-semibold bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full">In Stock</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="px-6 py-8 text-center text-gray-500 dark:text-gray-400">No recent items</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

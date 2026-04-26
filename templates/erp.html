@@ -2,72 +2,258 @@
 
 {% block title %}ERP Service - NZ TEX IT{% endblock %}
 
+{% block extra_css %}
+<style>
+:root {
+    --primary: #b6291f;
+    --primary-dark: #8a1f15;
+}
+.gradient-text {
+    background: linear-gradient(135deg, var(--primary), #d63031);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+.dark .glass-card {
+    background: rgba(30, 41, 59, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.software-card {
+    background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.dark .software-card {
+    background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.software-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+.dark .software-card:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+.pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(182, 41, 31, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(182, 41, 31, 0.6); }
+}
+.hero-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #b6291f 100%);
+    background-size: 200% 200%;
+    animation: gradient-shift 8s ease infinite;
+}
+@keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+.floating {
+    animation: floating 3s ease-in-out infinite;
+}
+@keyframes floating {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+.copy-btn {
+    transition: all 0.3s ease;
+}
+.copy-btn:hover {
+    transform: scale(1.1);
+}
+.copy-btn:active {
+    transform: scale(0.95);
+}
+.category-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<section class="pt-20 pb-16 bg-white min-h-screen">
-    <div class="max-w-6xl mx-auto px-4">
-        <header class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 py-5 text-center rounded-lg mb-6">
-            <h1 class="text-2xl font-bold text-white">Software Dashboard</h1>
-        </header>
-        
-        <div class="flex justify-center gap-4 flex-nowrap overflow-x-auto">
-            <div class="group bg-pink-200 dark:bg-pink-800 rounded-2xl p-5 min-w-[280px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-pink-300 dark:hover:border-pink-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
-                <h2 class="font-bold text-gray-800 dark:text-white mb-3 underline group-hover:text-pink-700 dark:group-hover:text-pink-300">ERP - Production and Inventory</h2>
-                <ul class="space-y-2">
-                    <li class="flex items-center justify-between">
-                        <a target="_blank" href="http://172.16.1.1" class="text-gray-800 dark:text-gray-200 font-bold hover:text-pink-600 dark:hover:text-pink-400 transition-colors">Shomoy ERP (Textile)</a>
-                        <button onclick="copyKey('7d523f989a5b7tpro488873885cc3c9474')" class="text-xs bg-pink-500 text-white px-2 py-1 rounded hover:bg-pink-600 transition-colors">Copy Key</button>
-                    </li>
-                    <li class="flex items-center justify-between">
-                        <a target="_blank" href="http://172.16.1.2" class="text-gray-800 dark:text-gray-200 font-bold hover:text-pink-600 dark:hover:text-pink-400 transition-colors">Shomoy ERP (Fabrics)</a>
-                        <button onclick="copyKey('7d523f989a5b7ce3e488873885cc3c9474')" class="text-xs bg-pink-500 text-white px-2 py-1 rounded hover:bg-pink-600 transition-colors">Copy Key</button>
-                    </li>
-                    <li class="flex items-center justify-between">
-                        <a target="_blank" href="http://172.16.1.3" class="text-gray-800 dark:text-gray-200 font-bold hover:text-pink-600 dark:hover:text-pink-400 transition-colors">Shomoy ERP (Denim)</a>
-                        <button onclick="copyKey('7d523f989a5bdproe488873885cc3c9474')" class="text-xs bg-pink-500 text-white px-2 py-1 rounded hover:bg-pink-600 transition-colors">Copy Key</button>
-                    </li>
-                    <li class="flex items-center justify-between">
-                        <a target="_blank" href="http://172.16.0.155/erp" class="text-gray-800 dark:text-gray-200 font-bold hover:text-pink-600 dark:hover:text-pink-400 transition-colors">Shomoy ERP (Apparels-Textile)</a>
-                        <button onclick="copyKey('7d523f989a5b7tpro488873885cc3c9474')" class="text-xs bg-pink-500 text-white px-2 py-1 rounded hover:bg-pink-600 transition-colors">Copy Key</button>
-                    </li>
-                    <li class="flex items-center justify-between">
-                        <a target="_blank" href="http://172.16.0.155/fabrics" class="text-gray-800 dark:text-gray-200 font-bold hover:text-pink-600 dark:hover:text-pink-400 transition-colors">Shomoy ERP (Apparels-Fabrics)</a>
-                        <button onclick="copyKey('7d523f989a5b7tpro488873885cc3c9474')" class="text-xs bg-pink-500 text-white px-2 py-1 rounded hover:bg-pink-600 transition-colors">Copy Key</button>
-                    </li>
-                </ul>
+<section class="pt-20 pb-16 min-h-screen relative overflow-hidden">
+    <!-- Background decoration -->
+    <div class="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900"></div>
+    <div class="absolute top-20 left-10 w-72 h-72 bg-[#b6291f]/10 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-[#b6291f]/5 to-purple-500/5 rounded-full blur-3xl"></div>
+    
+    <div class="w-full max-w-[1800px] mx-auto px-4 relative z-10">
+        <!-- Header -->
+        <div class="text-center mb-16">
+            <div class="inline-flex items-center gap-2 px-5 py-2.5 bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-full mb-6 border border-gray-200/50 dark:border-gray-700/50 shadow-lg">
+                <span class="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse"></span>
+                <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Enterprise Solutions</span>
             </div>
-            
-            <div class="group bg-blue-200 dark:bg-blue-800 rounded-2xl p-5 min-w-[280px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
-                <h2 class="font-bold text-gray-800 dark:text-white mb-3 underline group-hover:text-blue-700 dark:group-hover:text-blue-300">In-house Software</h2>
-                <ul class="space-y-2">
-                    <li><a target="_blank" href="http://172.16.3.105:8000/dashboard/" class="text-gray-800 dark:text-gray-200 font-bold hover:text-blue-600 dark:hover:text-blue-400 transition-colors">IT Support System</a></li>
-                    <li class="text-gray-800 dark:text-gray-200">IP Phone: 121</li>
-                    <li class="text-gray-800 dark:text-gray-200">Mobile: +8801332119079</li>
-                    <li class="text-gray-800 dark:text-gray-200">WhatsApp: +8801332119079</li>
-                    <li class="text-gray-800 dark:text-gray-200">Email: it.apparels@nztexgroupbd.com</li>
-                </ul>
+            <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">
+                <span class="gradient-text">ERP Services</span>
+            </h1>
+            <p class="text-gray-500 dark:text-gray-400 text-lg max-w-2xl mx-auto">Access all enterprise software and services from one place</p>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- ERP - Production and Inventory -->
+            <div class="glass-card rounded-3xl p-8 software-card floating" style="animation-delay: 0s;">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="category-icon bg-gradient-to-br from-pink-500 to-rose-500 shadow-lg">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-900 dark:text-white">ERP - Production & Inventory</h2>
+                </div>
+                <div class="space-y-4">
+                    <div class="group flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50 hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-all duration-300">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-pink-100 dark:bg-pink-900/40 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                            </div>
+                            <a target="_blank" href="http://172.16.1.1" class="text-gray-800 dark:text-gray-200 font-semibold hover:text-pink-600 dark:hover:text-pink-400 transition-colors">Shomoy ERP (Textile)</a>
+                        </div>
+                        <button onclick="copyKey('7d523f989a5b7tpro488873885cc3c9474')" class="copy-btn px-3 py-1.5 bg-pink-500 text-white text-xs font-medium rounded-lg hover:bg-pink-600 transition-colors">Copy Key</button>
+                    </div>
+                    <div class="group flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50 hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-all duration-300">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-pink-100 dark:bg-pink-900/40 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                            </div>
+                            <a target="_blank" href="http://172.16.1.2" class="text-gray-800 dark:text-gray-200 font-semibold hover:text-pink-600 dark:hover:text-pink-400 transition-colors">Shomoy ERP (Fabrics)</a>
+                        </div>
+                        <button onclick="copyKey('7d523f989a5b7ce3e488873885cc3c9474')" class="copy-btn px-3 py-1.5 bg-pink-500 text-white text-xs font-medium rounded-lg hover:bg-pink-600 transition-colors">Copy Key</button>
+                    </div>
+                    <div class="group flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50 hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-all duration-300">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-pink-100 dark:bg-pink-900/40 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                            </div>
+                            <a target="_blank" href="http://172.16.1.3" class="text-gray-800 dark:text-gray-200 font-semibold hover:text-pink-600 dark:hover:text-pink-400 transition-colors">Shomoy ERP (Denim)</a>
+                        </div>
+                        <button onclick="copyKey('7d523f989a5bdproe488873885cc3c9474')" class="copy-btn px-3 py-1.5 bg-pink-500 text-white text-xs font-medium rounded-lg hover:bg-pink-600 transition-colors">Copy Key</button>
+                    </div>
+                    <div class="group flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50 hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-all duration-300">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-pink-100 dark:bg-pink-900/40 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                            </div>
+                            <a target="_blank" href="http://172.16.0.155/erp" class="text-gray-800 dark:text-gray-200 font-semibold hover:text-pink-600 dark:hover:text-pink-400 transition-colors">Shomoy ERP (Apparels-Textile)</a>
+                        </div>
+                        <button onclick="copyKey('7d523f989a5b7tpro488873885cc3c9474')" class="copy-btn px-3 py-1.5 bg-pink-500 text-white text-xs font-medium rounded-lg hover:bg-pink-600 transition-colors">Copy Key</button>
+                    </div>
+                    <div class="group flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50 hover:bg-pink-50 dark:hover:bg-pink-900/20 transition-all duration-300">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-pink-100 dark:bg-pink-900/40 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                            </div>
+                            <a target="_blank" href="http://172.16.0.155/fabrics" class="text-gray-800 dark:text-gray-200 font-semibold hover:text-pink-600 dark:hover:text-pink-400 transition-colors">Shomoy ERP (Apparels-Fabrics)</a>
+                        </div>
+                        <button onclick="copyKey('7d523f989a5b7tpro488873885cc3c9474')" class="copy-btn px-3 py-1.5 bg-pink-500 text-white text-xs font-medium rounded-lg hover:bg-pink-600 transition-colors">Copy Key</button>
+                    </div>
+                </div>
             </div>
-            
-            <div class="group bg-green-200 dark:bg-green-800 rounded-2xl p-5 min-w-[280px] border-2 border-transparent dark:border-gray-700 shadow-md hover:shadow-xl dark:hover:shadow-2xl hover:border-green-300 dark:hover:border-green-600 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
-                <h2 class="font-bold text-gray-800 dark:text-white mb-3 underline group-hover:text-green-700 dark:group-hover:text-green-300">HRM</h2>
-                <ul class="space-y-2">
-                    <li class="flex items-center justify-between">
-                        <a href="http://172.16.1.1" class="text-gray-800 dark:text-gray-200 font-bold hover:text-green-600 dark:hover:text-green-400 transition-colors">Shomoy ERP (Textile)</a>
-                        <button onclick="copyKey('_@508bbb419_98tpa5efa9623fc9b30d455_')" class="text-xs bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 transition-colors">Copy Key</button>
-                    </li>
-                    <li class="flex items-center justify-between">
-                        <a href="http://172.16.1.2" class="text-gray-800 dark:text-gray-200 font-bold hover:text-green-600 dark:hover:text-green-400 transition-colors">Shomoy ERP (Fabrics)</a>
-                        <button onclick="copyKey('_@508bbb419_98bcc5efa9623fc9b30d455_')" class="text-xs bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 transition-colors">Copy Key</button>
-                    </li>
-                    <li class="flex items-center justify-between">
-                        <a href="http://172.16.1.3" class="text-gray-800 dark:text-gray-200 font-bold hover:text-green-600 dark:hover:text-green-400 transition-colors">Shomoy ERP (Denim)</a>
-                        <button onclick="copyKey('_@508bbb419_dpacc5efa9623fc9b30d455_')" class="text-xs bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 transition-colors">Copy Key</button>
-                    </li>
-                    <li class="flex items-center justify-between">
-                        <a href="http://172.16.0.155" class="text-gray-800 dark:text-gray-200 font-bold hover:text-green-600 dark:hover:text-green-400 transition-colors">Shomoy ERP (Apparels)</a>
-                        <button onclick="copyKey('_@508bbb419_98tpa5efa9623fc9b30d455_')" class="text-xs bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700 transition-colors">Copy Key</button>
-                    </li>
-                </ul>
+
+            <!-- HRM -->
+            <div class="glass-card rounded-3xl p-8 software-card floating" style="animation-delay: 0.2s;">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="category-icon bg-gradient-to-br from-green-500 to-emerald-500 shadow-lg">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-900 dark:text-white">HRM</h2>
+                </div>
+                <div class="space-y-4">
+                    <div class="group flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50 hover:bg-green-50 dark:hover:bg-green-900/20 transition-all duration-300">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-900/40 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                            </div>
+                            <a href="http://172.16.1.1" class="text-gray-800 dark:text-gray-200 font-semibold hover:text-green-600 dark:hover:text-green-400 transition-colors">Shomoy ERP (Textile)</a>
+                        </div>
+                        <button onclick="copyKey('_@508bbb419_98tpa5efa9623fc9b30d455_')" class="copy-btn px-3 py-1.5 bg-green-600 text-white text-xs font-medium rounded-lg hover:bg-green-700 transition-colors">Copy Key</button>
+                    </div>
+                    <div class="group flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50 hover:bg-green-50 dark:hover:bg-green-900/20 transition-all duration-300">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-900/40 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                            </div>
+                            <a href="http://172.16.1.2" class="text-gray-800 dark:text-gray-200 font-semibold hover:text-green-600 dark:hover:text-green-400 transition-colors">Shomoy ERP (Fabrics)</a>
+                        </div>
+                        <button onclick="copyKey('_@508bbb419_98bcc5efa9623fc9b30d455_')" class="copy-btn px-3 py-1.5 bg-green-600 text-white text-xs font-medium rounded-lg hover:bg-green-700 transition-colors">Copy Key</button>
+                    </div>
+                    <div class="group flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50 hover:bg-green-50 dark:hover:bg-green-900/20 transition-all duration-300">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-900/40 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                            </div>
+                            <a href="http://172.16.1.3" class="text-gray-800 dark:text-gray-200 font-semibold hover:text-green-600 dark:hover:text-green-400 transition-colors">Shomoy ERP (Denim)</a>
+                        </div>
+                        <button onclick="copyKey('_@508bbb419_dpacc5efa9623fc9b30d455_')" class="copy-btn px-3 py-1.5 bg-green-600 text-white text-xs font-medium rounded-lg hover:bg-green-700 transition-colors">Copy Key</button>
+                    </div>
+                    <div class="group flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50 hover:bg-green-50 dark:hover:bg-green-900/20 transition-all duration-300">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-900/40 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                            </div>
+                            <a href="http://172.16.0.155" class="text-gray-800 dark:text-gray-200 font-semibold hover:text-green-600 dark:hover:text-green-400 transition-colors">Shomoy ERP (Apparels)</a>
+                        </div>
+                        <button onclick="copyKey('_@508bbb419_98tpa5efa9623fc9b30d455_')" class="copy-btn px-3 py-1.5 bg-green-600 text-white text-xs font-medium rounded-lg hover:bg-green-700 transition-colors">Copy Key</button>
+                    </div>
+                </div>
             </div>
+
+            <!-- In-house Software -->
+            <div class="glass-card rounded-3xl p-8 software-card floating" style="animation-delay: 0.4s;">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="category-icon bg-gradient-to-br from-blue-500 to-cyan-500 shadow-lg">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-900 dark:text-white">In-house Software</h2>
+                </div>
+                <div class="space-y-4">
+                    <a target="_blank" href="http://172.16.3.105:8000/dashboard/" class="group flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-300">
+                        <div class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                        </div>
+                        <span class="text-gray-800 dark:text-gray-200 font-semibold group-hover:text-blue-600 dark:group-hover:text-blue-400">IT Support System</span>
+                    </a>
+                    <div class="p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50 space-y-2">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            <span class="text-gray-800 dark:text-gray-200 font-medium">IP Phone: <span class="font-bold">121</span></span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                            <span class="text-gray-800 dark:text-gray-200 font-medium">Mobile: <span class="font-bold">+8801332119079</span></span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                            <span class="text-gray-800 dark:text-gray-200 font-medium">WhatsApp: <span class="font-bold">+8801332119079</span></span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            <span class="text-gray-800 dark:text-gray-200 font-medium text-sm">it.apparels@nztexgroupbd.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div class="text-center mt-12">
+            <a href="/" class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#b6291f] to-[#8a1f15] text-white rounded-2xl font-bold text-base hover:shadow-2xl hover:shadow-[#b6291f]/40 hover:scale-105 transition-all duration-300">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                Back to Home
+            </a>
         </div>
     </div>
 </section>
@@ -75,7 +261,9 @@
 <script>
 function copyKey(text) {
     if (navigator.clipboard) {
-        navigator.clipboard.writeText(text);
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('Company Key copied successfully!');
+        });
     } else {
         const textArea = document.createElement("textarea");
         textArea.value = text;
@@ -83,8 +271,18 @@ function copyKey(text) {
         textArea.select();
         document.execCommand('copy');
         document.body.removeChild(textArea);
+        showToast('Company Key copied successfully!');
     }
-    alert('Company Key copied: ' + text);
+}
+
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'fixed bottom-4 right-4 bg-green-600 text-white px-6 py-3 rounded-xl shadow-2xl z-50 animate-pulse';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
 }
 </script>
 {% endblock %}

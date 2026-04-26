@@ -2,142 +2,96 @@
 
 {% block title %}Create Task - NZ TEX IT{% endblock %}
 
-{% block extra_css %}
-<style>
-.login-container {
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-.form-group {
-    margin-bottom: 1rem;
-}
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: #374151;
-}
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 1rem;
-}
-.form-group textarea {
-    min-height: 100px;
-}
-.btn-submit {
-    background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 50%, #6366F1 100%);
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    width: 100%;
-}
-.btn-submit:hover {
-    opacity: 0.9;
-}
-.assign-checkbox-group {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
-    max-height: 150px;
-    overflow-y: auto;
-    padding: 0.5rem;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-}
-.assign-checkbox {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.25rem;
-}
-.assign-checkbox input {
-    width: auto;
-}
-.assign-checkbox label {
-    margin: 0;
-    font-weight: 400;
-    font-size: 0.9rem;
-}
-</style>
-{% endblock %}
-
 {% block content %}
-<div class="bg-gray-50 min-h-screen py-8">
-    <div class="login-container">
-        <h2 class="text-2xl font-bold gradient-text mb-6">Create New Task</h2>
-        
-        <form method="post">
-            {% csrf_token %}
-            
-            <div class="form-group">
-                <label for="title">Task Title</label>
-                <input type="text" name="title" id="title" required placeholder="Enter task title">
-            </div>
-            
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea name="description" id="description" placeholder="Enter task description"></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label for="status">Status</label>
-                <select name="status" id="status">
-                    <option value="pending">Pending</option>
-                    <option value="in_progress">In Progress</option>
-                    <option value="completed">Completed</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="priority">Priority</label>
-                <select name="priority" id="priority">
-                    <option value="low">Low</option>
-                    <option value="medium" selected>Medium</option>
-                    <option value="high">High</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="due_date">Due Date</label>
-                <input type="date" name="due_date" id="due_date">
-            </div>
-            
-            <div class="form-group">
-                <label for="category">Category</label>
-                <select name="category" id="category">
-                    <option value="">No Category</option>
-                    {% for cat in categories %}
-                    <option value="{{ cat.id }}">{{ cat.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label>Assign To (Multiple)</label>
-                <div class="assign-checkbox-group">
-                    {% for user in users %}
-                    <div class="assign-checkbox">
-                        <input type="checkbox" name="assigned_to" id="user_{{ user.id }}" value="{{ user.id }}">
-                        <label for="user_{{ user.id }}">{{ user.username }}</label>
-                    </div>
-                    {% endfor %}
+<section class="pt-20 pb-12 min-h-screen">
+    <div class="w-full px-4 max-w-3xl mx-auto">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Create New Task</h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-1">Fill in the details to create a task</p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+            <form method="post" class="space-y-5">
+                {% csrf_token %}
+
+                <!-- Title -->
+                <div>
+                    <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Title</label>
+                    <input type="text" name="title" id="title" required placeholder="Enter task title"
+                        class="w-full px-4 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent smooth-transition">
                 </div>
-            </div>
-            
-            <button type="submit" class="btn-submit">Create Task</button>
-        </form>
+
+                <!-- Description -->
+                <div>
+                    <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Description</label>
+                    <textarea name="description" id="description" rows="4" placeholder="Enter task description"
+                        class="w-full px-4 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent smooth-transition"></textarea>
+                </div>
+
+                <!-- Status & Priority Row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Status</label>
+                        <select name="status" id="status"
+                            class="w-full px-4 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent smooth-transition">
+                            <option value="pending">Pending</option>
+                            <option value="in_progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="priority" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Priority</label>
+                        <select name="priority" id="priority"
+                            class="w-full px-4 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent smooth-transition">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Due Date & Category Row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="due_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Due Date</label>
+                        <input type="date" name="due_date" id="due_date"
+                            class="w-full px-4 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent smooth-transition">
+                    </div>
+                    <div>
+                        <label for="category" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Category</label>
+                        <select name="category" id="category"
+                            class="w-full px-4 py-2.5 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent smooth-transition">
+                            <option value="">No Category</option>
+                            {% for cat in categories %}
+                            <option value="{{ cat.id }}">{{ cat.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Assign To -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Assign To</label>
+                    <div class="max-h-40 overflow-y-auto p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 space-y-2">
+                        {% for user in users %}
+                        <label class="flex items-center gap-2.5 p-2 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-md cursor-pointer smooth-transition">
+                            <input type="checkbox" name="assigned_to" value="{{ user.id }}"
+                                class="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500">
+                            <span class="text-sm text-gray-700 dark:text-gray-300">{{ user.get_full_name|default:user.username }}</span>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit"
+                    class="w-full py-2.5 px-4 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-lg smooth-transition">
+                    Create Task
+                </button>
+            </form>
+        </div>
     </div>
-</div>
+</section>
 {% endblock %}

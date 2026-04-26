@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Shed - NZ TEX IT{% endblock %}
+
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+    .action-btn { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; transition: all 0.2s; cursor: pointer; }
+    .action-btn:hover { transform: scale(1.1); }
+    .edit-btn { background: #dbeafe; color: #2563eb; }
+    .edit-btn:hover { background: #bfdbfe; }
+    .del-btn { background: #fee2e2; color: #dc2626; }
+    .del-btn:hover { background: #fecaca; }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="pt-20 pb-16 min-h-screen hero-gradient dark:hero-gradient">
+    <div class="w-full max-w-6xl mx-auto px-4">
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <a href="/inventory/" class="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-[#b6291f] transition-colors mb-2">
+                    <i class="ri-arrow-left-line"></i>
+                    Back to Inventory
+                </a>
+                <h1 class="text-4xl font-bold text-gray-900 dark:text-white">
+                    <span class="text-[#b6291f]">Manage Shed</span>
+                </h1>
+                <p class="text-gray-500 dark:text-gray-400 mt-2">Manage inventory sheds/locations</p>
+            </div>
+            <button onclick="showAddModal()" class="px-6 py-3 bg-gradient-to-r from-[#b6291f] to-[#8a1f15] text-white rounded-xl font-semibold hover:shadow-lg transition-all flex items-center gap-2">
+                <i class="ri-add-line"></i>
+                Add Shed
+            </button>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 overflow-hidden">
+            <table class="w-full">
+                <thead>
+                    <tr class="bg-gray-100 dark:bg-gray-800">
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-200">Shed Name</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-200">Display Name</th>
+                        <th class="text-center py-3 px-4 font-semibold text-gray-700 dark:text-gray-200">Last Updated</th>
+                        <th class="text-center py-3 px-4 font-semibold text-gray-700 dark:text-gray-200">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for shed in sheds %}
+                    <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
+                        <td class="py-3 px-4 text-gray-900 dark:text-white font-medium">{{ shed.get_shed_name_display }}</td>
+                        <td class="py-3 px-4 text-gray-600 dark:text-gray-300">{{ shed.shed_name }}</td>
+                        <td class="py-3 px-4 text-center text-gray-500 dark:text-gray-400">{{ shed.updated_at|date:"M d, Y H:i" }}</td>
+                        <td class="py-3 px-4 text-center">
+                            <div class="flex justify-center gap-2">
+                                <a href="/inventory/{{ shed.shed_name }}/" class="action-btn edit-btn" title="Edit">
+                                    <i class="ri-edit-line"></i>
+                                </a>
+                                <button onclick="deleteShed('{{ shed.shed_name }}', '{{ shed.get_shed_name_display|escapejs }}')" class="action-btn del-btn" title="Delete">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="py-8 text-center text-gray-500">No sheds found. Click "Add Shed" to create one.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="shedModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-md">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Add New Shed</h3>
+                <form method="POST" action="/inventory/manage-shed/">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="add">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Shed Name</label>
+                            <input type="text" name="shed_name" required placeholder="e.g., shed_4" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                        </div>
+                    </div>
+                    <div class="flex justify-end gap-3 mt-6">
+                        <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">Cancel</button>
+                        <button type="submit" class="px-4 py-2 bg-[#b6291f] text-white rounded-lg hover:bg-[#8a1f15]">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="deleteModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-md">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="ri-delete-bin-line text-3xl text-red-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Delete Shed</h3>
+                    <p class="text-gray-500 dark:text-gray-400 mb-6">Are you sure you want to delete <span id="deleteShedName" class="font-semibold text-red-600"></span>? This action cannot be undone.</p>
+                    <div class="flex justify-center gap-3">
+                        <button onclick="closeDeleteModal()" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">Cancel</button>
+                        <form method="POST" action="/inventory/manage-shed/" id="deleteForm">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="shed_name" id="deleteShedInput">
+                            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function showAddModal() {
+        document.getElementById('shedModal').classList.remove('hidden');
+    }
+    
+    function closeModal() {
+        document.getElementById('shedModal').classList.add('hidden');
+    }
+    
+    function deleteShed(name, displayName) {
+        document.getElementById('deleteShedName').textContent = displayName;
+        document.getElementById('deleteShedInput').value = name;
+        document.getElementById('deleteModal').classList.remove('hidden');
+    }
+    
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').classList.add('hidden');
+    }
+</script>
+{% endblock %}

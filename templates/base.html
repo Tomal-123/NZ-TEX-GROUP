@@ -16,7 +16,33 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class'
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#fef2f2',
+                            100: '#fee2e2',
+                            200: '#fecaca',
+                            300: '#fca5a5',
+                            400: '#f87171',
+                            500: '#ef4444',
+                            600: '#b6291f',
+                            700: '#8a1f15',
+                            800: '#7f1d1d',
+                            900: '#7f1d1d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Prevent theme flash -->
+    <script>
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
         }
     </script>
     
@@ -142,20 +168,44 @@
             background-color: rgba(255, 235, 59, 0.1) !important;
             border-left: 4px solid #ffeb3b !important;
         }
+        
+        .smooth-transition {
+            transition: all 0.3s ease;
+        }
     </style>
     
     {% block extra_css %}{% endblock %}
 </head>
 <body class="bg-gray-50 text-gray-800 antialiased dark:bg-gray-900 dark:text-white min-h-screen">
     {% include 'components/navbar.html' %}
+    {% include 'components/sidebar.html' %}
     
-    <main>
+    <main class="pt-16 ml-20" id="main-content">
         {% block content %}{% endblock %}
     </main>
     
-    {% include 'components/footer.html' %}
-    
     <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+    </script>
     
     {% block extra_js %}{% endblock %}
 </body>

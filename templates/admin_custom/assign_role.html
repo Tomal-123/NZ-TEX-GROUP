@@ -1,0 +1,72 @@
+{% extends 'admin_custom/base.html' %}
+
+{% block title %}Assign Role - {{ user_obj.username }}{% endblock %}
+
+{% block content %}
+<section>
+    <div class="mb-8">
+        <a href="{% url 'admin_users' %}" class="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-[#b6291f] mb-4">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            Back to Users
+        </a>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Assign Role</h1>
+        <p class="text-gray-500 dark:text-gray-400 mt-1">Assign a role to {{ user_obj.get_full_name|default:user_obj.username }}</p>
+    </div>
+
+    <div class="max-w-2xl">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+            <!-- User Info -->
+            <div class="flex items-center gap-4 mb-6 pb-6 border-b border-gray-100 dark:border-gray-700">
+                <div class="w-16 h-16 bg-gradient-to-r from-[#b6291f] to-[#ff6b6b] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                    {{ user_obj.username|first|upper }}
+                </div>
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ user_obj.get_full_name|default:user_obj.username }}</h2>
+                    <p class="text-sm text-gray-500">{{ user_obj.email }}</p>
+                    <p class="text-xs text-gray-400">@{{ user_obj.username }}</p>
+                </div>
+            </div>
+
+            <!-- Current Roles -->
+            <div class="mb-6">
+                <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Current Roles</h3>
+                <div class="flex flex-wrap gap-2">
+                    {% for user_role in user_obj.user_roles.all %}
+                    {% if user_role.is_active %}
+                    <span class="px-3 py-1.5 text-sm rounded-full bg-blue-100 text-blue-700">
+                        {{ user_role.role.name }}
+                    </span>
+                    {% endif %}
+                    {% empty %}
+                    <p class="text-sm text-gray-400">No roles assigned</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Assign New Role -->
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Select Role</label>
+                    <select name="role" class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#b6291f] focus:border-transparent" required>
+                        <option value="">-- Select a role --</option>
+                        {% for role in roles %}
+                        <option value="{{ role.id }}">{{ role.name }} ({{ role.code }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="flex gap-3">
+                    <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-[#b6291f] to-[#8a1f15] text-white rounded-xl hover:shadow-lg smooth-transition">
+                        <i data-lucide="check" class="w-4 h-4 inline mr-2"></i>
+                        Assign Role
+                    </button>
+                    <a href="{% url 'admin_users' %}" class="px-6 py-2.5 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 smooth-transition">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

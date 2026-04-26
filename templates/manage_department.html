@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Department - NZ TEX IT{% endblock %}
+
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+    .action-btn { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; transition: all 0.2s; cursor: pointer; }
+    .action-btn:hover { transform: scale(1.1); }
+    .edit-btn { background: #fef3c7; color: #d97706; }
+    .edit-btn:hover { background: #fde68a; }
+    .del-btn { background: #fee2e2; color: #dc2626; }
+    .del-btn:hover { background: #fecaca; }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="pt-20 pb-16 min-h-screen hero-gradient dark:hero-gradient">
+    <div class="w-full max-w-6xl mx-auto px-4">
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <a href="/inventory/" class="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-[#b6291f] transition-colors mb-2">
+                    <i class="ri-arrow-left-line"></i>
+                    Back to Inventory
+                </a>
+                <h1 class="text-4xl font-bold text-gray-900 dark:text-white">
+                    <span class="text-[#b6291f]">Manage Department</span>
+                </h1>
+                <p class="text-gray-500 dark:text-gray-400 mt-2">Add, edit or remove departments</p>
+            </div>
+            <button onclick="showAddModal()" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-semibold hover:shadow-lg transition-all flex items-center gap-2">
+                <i class="ri-add-line"></i>
+                Add Department
+            </button>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 overflow-hidden">
+            <table class="w-full">
+                <thead>
+                    <tr class="bg-gray-100 dark:bg-gray-800">
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-200">#</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-200">Department Name</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-200">Code</th>
+                        <th class="text-left py-3 px-4 font-semibold text-gray-700 dark:text-gray-200">Description</th>
+                        <th class="text-center py-3 px-4 font-semibold text-gray-700 dark:text-gray-200">Status</th>
+                        <th class="text-center py-3 px-4 font-semibold text-gray-700 dark:text-gray-200">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for dept in departments %}
+                    <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
+                        <td class="py-3 px-4 text-gray-900 dark:text-white">{{ forloop.counter }}</td>
+                        <td class="py-3 px-4 text-gray-900 dark:text-white font-medium">{{ dept.name }}</td>
+                        <td class="py-3 px-4 text-gray-600 dark:text-gray-300 font-mono text-sm">{{ dept.code }}</td>
+                        <td class="py-3 px-4 text-gray-500 dark:text-gray-400">{{ dept.description|default:"-" }}</td>
+                        <td class="py-3 px-4 text-center">
+                            {% if dept.is_active %}
+                            <span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs">Active</span>
+                            {% else %}
+                            <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs">Inactive</span>
+                            {% endif %}
+                        </td>
+                        <td class="py-3 px-4 text-center">
+                            <div class="flex justify-center gap-2">
+                                <button onclick="editDept({{ dept.id }}, '{{ dept.name }}', '{{ dept.code }}', '{{ dept.description|default:''|escapejs }}')" class="action-btn edit-btn" title="Edit">
+                                    <i class="ri-edit-line"></i>
+                                </button>
+                                <button onclick="deleteDept({{ dept.id }}, '{{ dept.name|escapejs }}')" class="action-btn del-btn" title="Delete">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="py-8 text-center text-gray-500">No departments found. Click "Add Department" to create one.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="deptModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-md">
+                <h3 id="modalTitle" class="text-xl font-bold text-gray-900 dark:text-white mb-4">Add Department</h3>
+                <form id="deptForm" method="POST" action="/inventory/manage-department/">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" id="formAction" value="add">
+                    <input type="hidden" name="department_id" id="deptId" value="">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Department Name</label>
+                            <input type="text" name="name" id="deptName" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Code</label>
+                            <input type="text" name="code" id="deptCode" required placeholder="e.g., ACC, HR, IT" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+                            <textarea name="description" id="deptDesc" rows="2" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"></textarea>
+                        </div>
+                    </div>
+                    <div class="flex justify-end gap-3 mt-6">
+                        <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">Cancel</button>
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function showAddModal() {
+        document.getElementById('modalTitle').textContent = 'Add Department';
+        document.getElementById('formAction').value = 'add';
+        document.getElementById('deptId').value = '';
+        document.getElementById('deptName').value = '';
+        document.getElementById('deptCode').value = '';
+        document.getElementById('deptDesc').value = '';
+        document.getElementById('deptModal').classList.remove('hidden');
+    }
+    
+    function closeModal() {
+        document.getElementById('deptModal').classList.add('hidden');
+    }
+    
+    function editDept(id, name, code, desc) {
+        document.getElementById('modalTitle').textContent = 'Edit Department';
+        document.getElementById('formAction').value = 'edit';
+        document.getElementById('deptId').value = id;
+        document.getElementById('deptName').value = name;
+        document.getElementById('deptCode').value = code;
+        document.getElementById('deptDesc').value = desc || '';
+        document.getElementById('deptModal').classList.remove('hidden');
+    }
+    
+    function deleteDept(id, name) {
+        if (confirm('Are you sure you want to delete department "' + name + '"?')) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/inventory/manage-department/';
+            form.innerHTML = '{% csrf_token %}<input type="hidden" name="action" value="delete"><input type="hidden" name="department_id" value="' + id + '">';
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+</script>
+{% endblock %}
