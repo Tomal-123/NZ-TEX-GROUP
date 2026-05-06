@@ -38,6 +38,8 @@
                     <thead class="bg-gray-50 dark:bg-gray-700/50">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Task</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Department</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Problem Type</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Priority</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Due Date</th>
@@ -51,8 +53,17 @@
                             <td class="px-6 py-4">
                                 <div>
                                     <a href="#" class="text-sm font-medium text-gray-900 dark:text-white hover:text-primary-600">{{ task.title }}</a>
-                                    {% if task.category %}<p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ task.category.name }}</p>{% endif %}
+                                    <div class="flex gap-2 mt-0.5">
+                                        {% if task.category %}<span class="text-xs text-gray-500 dark:text-gray-400">{{ task.category.name }}</span>{% endif %}
+                                        {% if task.department %}<span class="text-xs text-blue-600 dark:text-blue-400">| {{ task.department.name }}</span>{% endif %}
+                                    </div>
                                 </div>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
+                                {% if task.department %}{{ task.department.name }}{% else %}-{% endif %}
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
+                                {% if task.category %}{{ task.category.name }}{% else %}-{% endif %}
                             </td>
                             <td class="px-6 py-4">
                                 <span class="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-semibold rounded-full
@@ -78,34 +89,6 @@
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <div class="flex items-center justify-end gap-2">
-                                    <div class="relative inline-block">
-                                        <button type="button" onclick="toggleStatusDropdown({{ task.id }})" class="p-1.5 text-gray-500 hover:text-green-600 dark:text-gray-400 dark:hover:text-green-400 smooth-transition" title="Change Status">
-                                            <i data-lucide="check-circle" class="w-4 h-4"></i>
-                                        </button>
-                                        <div id="status-dropdown-{{ task.id }}" class="hidden absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-10">
-                                            <form method="post" action="{% url 'approve_task' task.id %}" class="py-1">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="status" value="pending">
-                                                <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
-                                                    <span class="w-2 h-2 rounded-full bg-yellow-500"></span> Pending
-                                                </button>
-                                            </form>
-                                            <form method="post" action="{% url 'approve_task' task.id %}" class="py-1">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="status" value="in_progress">
-                                                <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
-                                                    <span class="w-2 h-2 rounded-full bg-blue-500"></span> In Progress
-                                                </button>
-                                            </form>
-                                            <form method="post" action="{% url 'approve_task' task.id %}" class="py-1">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="status" value="completed">
-                                                <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2">
-                                                    <span class="w-2 h-2 rounded-full bg-green-500"></span> Completed
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
                                     <a href="{% url 'edit_task' task.id %}" class="p-1.5 text-gray-500 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400 smooth-transition">
                                         <i data-lucide="pencil" class="w-4 h-4"></i>
                                     </a>
@@ -120,7 +103,7 @@
                         </tr>
                         {% empty %}
                         <tr>
-                            <td colspan="6" class="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
+                            <td colspan="8" class="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
                                 <div class="flex flex-col items-center gap-3">
                                     <i data-lucide="clipboard-list" class="w-12 h-12 text-gray-300 dark:text-gray-600"></i>
                                     <p>No tasks found</p>

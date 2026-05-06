@@ -10,7 +10,12 @@
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Dashboard</h1>
             <p class="text-gray-500 dark:text-gray-400">Overview for {% if selected_month %}{{ selected_month_date|date:"F" }} {{ selected_year }}{% else %}All Time{% endif %}</p>
         </div>
-
+        <div class="flex justify-end mb-4">
+            <a href="{% url 'create_task' %}" class="px-4 py-2 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition-all">
+                <i data-lucide="plus" class="w-4 h-4 inline mr-1"></i>
+                Create Task
+            </a>
+        </div>
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl p-5 border border-gray-200 dark:border-gray-700 shadow-soft hover:shadow-soft-lg transition-all duration-300">
