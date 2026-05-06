@@ -1,17 +1,7 @@
 <nav class="fixed top-0 left-0 right-0 z-50">
     {% load static %}
     <!-- Main Background with Blur -->
-    <div class="absolute inset-0 bg-gradient-to-r from-white/90 via-white/80 to-white/90 dark:from-gray-900/95 dark:via-gray-900/90 dark:to-gray-900/95 backdrop-blur-2xl border-b border-gray-200/30 dark:border-gray-700/30"></div>
-    
-    <!-- Decorative Line -->
-    <div class="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#b6291f] to-transparent"></div>
-    <div class="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#b6291f]/40 to-transparent blur-sm translate-y-px"></div>
-    
-    <!-- Animated Background Patterns -->
-    <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute top-0 left-1/4 w-64 h-64 bg-[#b6291f]/5 rounded-full blur-3xl animate-pulse"></div>
-        <div class="absolute top-0 right-1/4 w-48 h-48 bg-purple-500/5 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
-    </div>
+    <div class="absolute inset-0 bg-white dark:bg-gray-900 border-b border-gray-200/30 dark:border-gray-700/30"></div>
     
     <div class="w-[95%] md:w-[90%] mx-auto px-2 md:px-4 relative">
         <div class="flex justify-between items-center h-16 md:h-18">
@@ -54,7 +44,7 @@
                             <span class="hidden xl:inline">Home</span>
                         </span>
                     </a>
-                </div>
+                                    </div>
                 
                 <!-- Action Buttons with Enhanced Design -->
                 {% if user.is_authenticated %}
