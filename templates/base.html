@@ -21,17 +21,41 @@
                 extend: {
                     colors: {
                         primary: {
-                            50: '#fef2f2',
-                            100: '#fee2e2',
-                            200: '#fecaca',
-                            300: '#fca5a5',
-                            400: '#f87171',
-                            500: '#ef4444',
-                            600: '#b6291f',
-                            700: '#8a1f15',
-                            800: '#7f1d1d',
-                            900: '#7f1d1d',
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                        },
+                        accent: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            300: '#6ee7b7',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
                         }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Poppins', 'sans-serif'],
+                        heading: ['Poppins', 'Inter', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        'xl': '16px',
+                        '2xl': '20px',
+                    },
+                    boxShadow: {
+                        'soft': '0 2px 15px rgba(0,0,0,0.08)',
+                        'soft-lg': '0 10px 40px rgba(0,0,0,0.12)',
                     }
                 }
             }
@@ -49,7 +73,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Heroicons -->
     <script src="https://unpkg.com/heroicons@2.0.18/24/outline/index.js"></script>
@@ -178,13 +202,24 @@
 </head>
 <body class="bg-gray-50 text-gray-800 antialiased dark:bg-gray-900 dark:text-white min-h-screen">
     {% include 'components/navbar.html' %}
+    {% if not no_sidebar %}
     {% include 'components/sidebar.html' %}
+    {% endif %}
     
-    <main class="pt-16 ml-20" id="main-content">
+    <main class="pt-16 {% if not no_sidebar %}ml-20{% endif %}" id="main-content">
         {% block content %}{% endblock %}
     </main>
     
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Framer Motion -->
+    <script src="https://unpkg.com/framer-motion@7.10.4/dist/framer-motion.umd.js"></script>
+    <!-- Slide-over drawer -->
+    <div id="slide-over-drawer" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-30" onclick="toggleDrawer()"></div>
+        <div class="absolute right-0 top-0 h-full w-80 bg-white dark:bg-gray-800 shadow-lg p-4 overflow-y-auto">
+            <!-- Drawer content will be injected here -->
+        </div>
+    </div>
     
     <script>
         // Initialize Lucide icons
@@ -205,6 +240,13 @@
             return cookieValue;
         }
         const csrftoken = getCookie('csrftoken');
+        // Slide‑over drawer toggle
+        function toggleDrawer() {
+            const drawer = document.getElementById('slide-over-drawer');
+            if (drawer) {
+                drawer.classList.toggle('hidden');
+            }
+        }
     </script>
     
     {% block extra_js %}{% endblock %}
